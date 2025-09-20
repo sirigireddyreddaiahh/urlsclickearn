@@ -467,6 +467,18 @@ onMounted(() => {
   popunderScript.src = '//preferablyending.com/84/38/22/84382233fb94a7cfb87278684808293a.js';
   document.getElementById('popunder-ad-container').appendChild(popunderScript);
   console.log('Popunder Ad script loaded.');
+
+  // Dynamically load the ads script
+  const script = document.createElement('script');
+  script.src = 'https://example.com/ads.js'; // Replace with the actual ads script URL
+  script.async = true;
+  document.body.appendChild(script);
+
+  // Dynamically load the Anti-Adblock JS script
+  const antiAdblockScript = document.createElement('script');
+  antiAdblockScript.src = '//preferablyending.com/84/38/22/84382233fb94a7cfb87278684808293a.js';
+  antiAdblockScript.async = true;
+  document.body.appendChild(antiAdblockScript);
 })
 </script>
 

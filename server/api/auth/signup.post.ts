@@ -123,15 +123,15 @@ export default defineEventHandler(async (event) => {
         })
         
         try {
-          await sendVerificationEmail(normalizedEmail, code, firstName || undefined)
+          await sendVerificationEmail(normalizedEmail, code);
         } catch (error) {
-          console.error('Failed to send verification email:', error)
+          console.error('Failed to send verification email:', error);
           return createError({
             statusCode: 500,
             statusMessage: 'Failed to send verification email. Please try again.'
-          })
+          });
         }
-        
+
         return {
           success: true,
           message: 'Verification code resent to your email address.',
@@ -139,41 +139,41 @@ export default defineEventHandler(async (event) => {
         }
       }
     }
-    
+
     // Hash password
-    const passwordHash = await userManagement.hashPassword(password)
-    
+    const passwordHash = await userManagement.hashPassword(password);
+
     // Create user profile
     const profile = {
       firstName: firstName?.trim(),
       lastName: lastName?.trim()
-    }
-    
+    };
+
     // Create user
-    const user = await createUser(normalizedEmail, passwordHash, profile)
-    
+    const user = await createUser(normalizedEmail, passwordHash, profile);
+
     // Update settings based on preferences
     await updateUser({ id: user.id }, {
       settings: {
         ...user.settings,
         marketingEmails: marketingEmails || false
       }
-    })
-    
+    });
+
     // Generate verification code
-    const code = String(100000 + randomInt(900000))
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString()
-    
+    const code = String(100000 + randomInt(900000));
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
     await updateUser({ id: user.id }, {
       verificationCode: code,
       verificationExpiresAt: expiresAt
-    })
-    
+    });
+
     // Send verification email
     try {
-      await sendVerificationEmail(normalizedEmail, code, firstName)
+      await sendVerificationEmail(normalizedEmail, code);
     } catch (error) {
-      console.error('Failed to send verification email:', error)
+      console.error('Failed to send verification email:', error);
       // Don't fail the signup, but log the error
     }
     

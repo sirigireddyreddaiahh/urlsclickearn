@@ -50,6 +50,12 @@ export default defineNuxtConfig({
     '/dashboard': {
       redirect: '/dashboard/links',
     },
+    '/login': {
+      redirect: '/auth/login',
+    },
+    '/signup': {
+      redirect: '/auth/signup',
+    },
   },
 
   future: {

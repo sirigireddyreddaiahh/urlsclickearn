@@ -57,30 +57,36 @@ class EmailService {
   }
 
   private async sendWithRetry(
-    to: string, 
-    template: EmailTemplate, 
-    attempt: number = 1
-  ): Promise<any> {
-    try {
-      const info = await this.transporter.sendMail({
-        from: this.fromAddress,
-        to,
-        subject: template.subject,
-        html: template.html,
-        text: template.text
-      })
-      
-      console.log(`Email sent successfully to ${to}: ${info.messageId}`)
-      return info
-    } catch (error) {
-      console.error(`Email send attempt ${attempt} failed:`, error)
-      
-      if (attempt < this.retryAttempts) {
-        await new Promise(resolve => setTimeout(resolve, this.retryDelay * attempt))
-        return this.sendWithRetry(to, template, attempt + 1)
+    to: string,
+    subject: string,
+    html: string,
+    text?: string
+  ): Promise<void> {
+    let attempts = 0;
+    while (attempts < this.retryAttempts) {
+      try {
+        await this.transporter.sendMail({
+          from: this.fromAddress,
+          to,
+          subject,
+          html,
+          text,
+        });
+        console.log(`Email sent successfully to ${to}`);
+        return;
+      } catch (error: any) {
+        attempts++;
+        console.error(
+          `Attempt ${attempts} to send email to ${to} failed:`,
+          error.message
+        );
+        if (attempts < this.retryAttempts) {
+          console.log(`Retrying in ${this.retryDelay}ms...`);
+          await new Promise((resolve) => setTimeout(resolve, this.retryDelay));
+        } else {
+          console.error(`All attempts to send email to ${to} have failed.`);
+        }
       }
-      
-      throw error
     }
   }
 
@@ -124,37 +130,17 @@ class EmailService {
     `
   }
 
-  async sendVerificationEmail(to: string, code: string, userName?: string): Promise<void> {
+  async sendVerificationEmail(to: string, code: string): Promise<void> {
     const template: EmailTemplate = {
-      subject: '🔐 Verify your Urlsclickearn account',
+      subject: 'Verify Your Email',
       html: this.getBaseTemplate(`
-        <h2>Welcome${userName ? `, ${userName}` : ''}!</h2>
-        <p>Thank you for signing up for Urlsclickearn. To complete your registration, please verify your email address.</p>
-        
-        <div class="code-box">
-          <p style="margin: 0 0 10px 0; color: #6b7280;">Your verification code is:</p>
-          <div class="code">${code}</div>
-          <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 14px;">This code will expire in 60 minutes</p>
-        </div>
-        
-        <p><strong>How to verify:</strong></p>
-        <ol>
-          <li>Go to the verification page</li>
-          <li>Enter your email address</li>
-          <li>Enter the 6-digit code above</li>
-          <li>Click "Verify Account"</li>
-        </ol>
-        
-        <div class="warning">
-          <strong>⚠️ Security Notice:</strong> Never share this code with anyone. Urlsclickearn staff will never ask for your verification code.
-        </div>
-        
-        <p>If you didn't create an account with Urlsclickearn, please ignore this email.</p>
+        <h2>Verify Your Email</h2>
+        <p>Your verification code is: <strong>${code}</strong></p>
       `),
       text: `Your Urlsclickearn verification code is: ${code}. This code expires in 60 minutes.`
-    }
-    
-    await this.sendWithRetry(to, template)
+    };
+
+    await this.sendWithRetry(to, template.subject, template.html, template.text);
   }
 
   async sendWelcomeEmail(to: string, userName?: string): Promise<void> {
@@ -163,33 +149,11 @@ class EmailService {
       html: this.getBaseTemplate(`
         <h2>Welcome aboard${userName ? `, ${userName}` : ''}! 🚀</h2>
         <p>Your account has been successfully verified and you're all set to start using Urlsclickearn.</p>
-        
-        <h3>What's next?</h3>
-        <ul>
-          <li>Complete your profile to get the most out of Urlsclickearn</li>
-          <li>Explore our dashboard and features</li>
-          <li>Start earning with shortened URLs</li>
-          <li>Check out our documentation for tips and best practices</li>
-        </ul>
-        
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="https://urlsclickearn.xyz/dashboard" class="button">Go to Dashboard</a>
-        </div>
-        
-        <h3>Need help?</h3>
-        <p>Our support team is here to help you succeed. If you have any questions:</p>
-        <ul>
-          <li>Email us at: support@urlsclickearn.xyz</li>
-          <li>Visit our Help Center</li>
-          <li>Join our community forum</li>
-        </ul>
-        
-        <p style="margin-top: 30px;">Best regards,<br>The Urlsclickearn Team</p>
       `),
       text: `Welcome to Urlsclickearn! Your account has been verified. Visit https://urlsclickearn.xyz/dashboard to get started.`
-    }
-    
-    await this.sendWithRetry(to, template)
+    };
+
+    await this.sendWithRetry(to, template.subject, template.html, template.text);
   }
 
   async sendResetCodeEmail(to: string, code: string, userName?: string): Promise<void> {
@@ -199,38 +163,11 @@ class EmailService {
         <h2>Password Reset Request</h2>
         <p>Hello${userName ? ` ${userName}` : ''},</p>
         <p>We received a request to reset your password for your Urlsclickearn account.</p>
-        
-        <div class="code-box">
-          <p style="margin: 0 0 10px 0; color: #6b7280;">Your password reset code is:</p>
-          <div class="code">${code}</div>
-          <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 14px;">This code will expire in 60 minutes</p>
-        </div>
-        
-        <p><strong>To reset your password:</strong></p>
-        <ol>
-          <li>Return to the password reset page</li>
-          <li>Enter this 6-digit code</li>
-          <li>Create your new password</li>
-          <li>Confirm your new password</li>
-        </ol>
-        
-        <div class="warning">
-          <strong>⚠️ Important:</strong> If you didn't request a password reset, your account may be at risk. 
-          Please secure your account immediately and contact our support team.
-        </div>
-        
-        <p><strong>Password requirements:</strong></p>
-        <ul>
-          <li>At least 8 characters long</li>
-          <li>Contains uppercase and lowercase letters</li>
-          <li>Contains at least one number</li>
-          <li>Contains at least one special character (recommended)</li>
-        </ul>
       `),
       text: `Your password reset code is: ${code}. This code expires in 60 minutes. If you didn't request this, please ignore this email.`
-    }
-    
-    await this.sendWithRetry(to, template)
+    };
+
+    await this.sendWithRetry(to, template.subject, template.html, template.text);
   }
 
   async sendPasswordChangedEmail(to: string, userName?: string): Promise<void> {
@@ -261,7 +198,7 @@ class EmailService {
       text: `Your Urlsclickearn password has been successfully changed. If you didn't make this change, please contact support immediately.`
     }
     
-    await this.sendWithRetry(to, template)
+    await this.sendWithRetry(to, template.subject, template.html, template.text)
   }
 
   async sendLoginAlertEmail(to: string, details: { ip?: string, device?: string, location?: string }): Promise<void> {
@@ -288,7 +225,7 @@ class EmailService {
       text: `New login detected on your Urlsclickearn account. If this wasn't you, please secure your account immediately.`
     }
     
-    await this.sendWithRetry(to, template)
+    await this.sendWithRetry(to, template.subject, template.html, template.text)
   }
 
   async verifyConnection(): Promise<boolean> {
@@ -307,17 +244,17 @@ class EmailService {
 export const emailService = new EmailService()
 
 // Export convenience functions
-export const sendVerificationEmail = (to: string, code: string, userName?: string) => 
-  emailService.sendVerificationEmail(to, code, userName)
+export const sendVerificationEmail = (to: string, code: string) => 
+  emailService.sendVerificationEmail(to, code);
 
 export const sendWelcomeEmail = (to: string, userName?: string) => 
-  emailService.sendWelcomeEmail(to, userName)
+  emailService.sendWelcomeEmail(to, userName);
 
 export const sendResetCodeEmail = (to: string, code: string, userName?: string) => 
-  emailService.sendResetCodeEmail(to, code, userName)
+  emailService.sendResetCodeEmail(to, code, userName);
 
 export const sendPasswordChangedEmail = (to: string, userName?: string) => 
-  emailService.sendPasswordChangedEmail(to, userName)
+  emailService.sendPasswordChangedEmail(to, userName);
 
 export const sendLoginAlertEmail = (to: string, details: any) => 
-  emailService.sendLoginAlertEmail(to, details)
+  emailService.sendLoginAlertEmail(to, details);

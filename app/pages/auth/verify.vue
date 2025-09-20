@@ -82,6 +82,20 @@
           </button>
         </div>
 
+        <div class="mt-2 text-sm text-gray-600">
+          Verification codes expire after 1 hour. If your code has expired, you can request a new one below.
+        </div>
+
+        <div class="mt-4">
+          <button
+            @click="resendCode"
+            :disabled="isResending"
+            class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            {{ isResending ? 'Resending...' : 'Resend Code' }}
+          </button>
+        </div>
+
         <div class="mt-4 text-center">
           <NuxtLink to="/auth/login" class="text-sm text-indigo-600 hover:text-indigo-500">
             Back to Sign In

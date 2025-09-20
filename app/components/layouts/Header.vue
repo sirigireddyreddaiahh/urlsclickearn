@@ -202,6 +202,13 @@ watch(() => useRoute().path, () => {
                   Login
                 </NuxtLink>
 
+                <NuxtLink
+                  to="/auth/reset-password"
+                  class="flex items-center w-full px-4 py-3 text-blue-600 hover:text-blue-700 underline transition-all duration-300"
+                >
+                  Forgot Password?
+                </NuxtLink>
+
                 <a
                   :href="github"
                   target="_blank"

@@ -21,6 +21,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { validatePassword } from '@/server/utils/users-file';
 
 const email = ref('')
 const password = ref('')
@@ -28,31 +29,31 @@ const msg = ref('')
 const router = useRouter()
 
 async function submit() {
-  msg.value = ''
-  // client-side quick password checks
-  if (password.value.length < 8) { msg.value = 'Password must be 8+ characters'; return }
-  if (!/[A-Z]/.test(password.value) || !/[a-z]/.test(password.value) || !/[0-9]/.test(password.value)) {
-    msg.value = 'Password must include upper, lower and a digit'
-    return
+  msg.value = '';
+
+  // Validate password using centralized logic
+  const { valid, errors } = await validatePassword(password.value);
+  if (!valid) {
+    msg.value = errors.join(', ');
+    return;
   }
 
   try {
-    // store the plain password briefly so we can auto-login after verification
-    sessionStorage.setItem('pendingSignup', JSON.stringify({ email: email.value, password: password.value }))
-
+    // Proceed with signup logic
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email.value, password: password.value })
-    })
+    });
     if (!res.ok) {
-      const j = await res.json().catch(()=>null)
-      throw new Error(j?.statusMessage || j?.message || 'Signup failed')
+      const j = await res.json().catch(() => null);
+      throw new Error(j?.statusMessage || j?.message || 'Signup failed');
     }
-    msg.value = 'Verification code sent. Check your email.'
-    router.push({ path: '/auth/verify', query: { email: email.value } })
+
+    msg.value = 'Signup successful! Please check your email to verify your account.';
+    router.push({ path: '/auth/verify', query: { email: email.value } });
   } catch (e) {
-    msg.value = e.message || 'Error'
+    msg.value = e.message || 'Error';
   }
 }
 </script>

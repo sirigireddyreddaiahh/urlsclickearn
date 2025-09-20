@@ -1,10 +1,29 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
+// Define types for API responses and errors
+interface ApiResponse {
+  user?: {
+    id: string;
+    email: string;
+    profile?: UserProfile;
+    role: 'user' | 'admin' | 'moderator';
+    lastLogin?: string;
+    loginCount: number;
+  };
+  message: string;
+}
+
+interface ApiError {
+  data?: {
+    message: string;
+  };
+}
+
 // Reactive state
-const user = ref(null);
+const user = ref<ApiResponse['user'] | null>(null);
 const isLoading = ref(false);
-const error = ref(null);
+const error = ref<string | null>(null);
 
 // Authentication composable
 export function useAuth() {
@@ -19,20 +38,21 @@ export function useAuth() {
   }
 
   // Login method
-  async function login(email, password) {
+  async function login(email: string, password: string) {
     isLoading.value = true;
     clearError();
 
     try {
-      const response = await $fetch('/api/auth/login', {
+      const response = (await $fetch<ApiResponse>('/api/auth/login', {
         method: 'POST',
         body: { email, password },
-      });
+      }));
 
       user.value = response.user;
       router.push('/dashboard');
     } catch (err) {
-      error.value = err.data?.message || 'Login failed. Please try again.';
+      const errorData = err as ApiError;
+      error.value = errorData.data?.message || 'Login failed. Please try again.';
     } finally {
       isLoading.value = false;
     }
@@ -48,46 +68,49 @@ export function useAuth() {
       user.value = null;
       router.push('/auth/login');
     } catch (err) {
-      error.value = err.data?.message || 'Logout failed. Please try again.';
+      const errorData = err as ApiError;
+      error.value = errorData.data?.message || 'Logout failed. Please try again.';
     } finally {
       isLoading.value = false;
     }
   }
 
   // Register method
-  async function register(email, password) {
+  async function register(email: string, password: string) {
     isLoading.value = true;
     clearError();
 
     try {
-      const response = await $fetch('/api/auth/register', {
+      const response = (await $fetch<ApiResponse>('/api/auth/register', {
         method: 'POST',
         body: { email, password },
-      });
+      }));
 
       user.value = response.user;
       router.push('/dashboard');
     } catch (err) {
-      error.value = err.data?.message || 'Registration failed. Please try again.';
+      const errorData = err as ApiError;
+      error.value = errorData.data?.message || 'Registration failed. Please try again.';
     } finally {
       isLoading.value = false;
     }
   }
 
   // Verify email method
-  async function verifyEmail(email, code) {
+  async function verifyEmail(email: string, code: string) {
     isLoading.value = true;
     clearError();
 
     try {
-      const response = await $fetch('/api/auth/verify', {
+      const response = (await $fetch<ApiResponse>('/api/auth/verify', {
         method: 'POST',
         body: { email, code },
-      });
+      }));
 
       return { success: true, message: response.message };
     } catch (err) {
-      error.value = err.data?.message || 'Verification failed. Please try again.';
+      const errorData = err as ApiError;
+      error.value = errorData.data?.message || 'Verification failed. Please try again.';
       return { success: false };
     } finally {
       isLoading.value = false;
@@ -100,7 +123,7 @@ export function useAuth() {
     clearError();
 
     try {
-      const response = await $fetch('/api/auth/user');
+      const response = (await $fetch<ApiResponse>('/api/auth/user'));
       user.value = response.user;
     } catch (err) {
       user.value = null;
