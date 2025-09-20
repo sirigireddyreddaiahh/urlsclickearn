@@ -21,7 +21,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { validatePassword } from '@/server/utils/users-file';
+import { validatePassword } from '../../../server/utils/users-file';
 
 const email = ref('')
 const password = ref('')

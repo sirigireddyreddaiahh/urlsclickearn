@@ -1,7 +1,7 @@
 // server/utils/users-file.ts
 import fs from 'fs/promises'
 import path from 'path'
-import { randomUUID } from 'crypto'
+import { nanoid } from 'nanoid'
 import bcrypt from 'bcryptjs'
 
 const DATA_DIR = path.join(process.cwd(), 'server', 'data')
@@ -138,7 +138,7 @@ class UserManagementSystem {
 
     const now = new Date().toISOString()
     const user: UserRecord = {
-      id: randomUUID(),
+      id: nanoid(),
       email: email.toLowerCase(),
       passwordHash,
       verified: false,
@@ -261,7 +261,7 @@ class UserManagementSystem {
     const now = new Date().toISOString()
     
     const session: SessionRecord = {
-      id: randomUUID(),
+      id: nanoid(),
       userId,
       token,
       ipAddress,
@@ -413,3 +413,4 @@ export const createUser = (email: string, passwordHash: string, profile?: Partia
   userManagement.createUser(email, passwordHash, profile)
 export const updateUser = (identifier: any, updates: Partial<UserRecord>) => 
   userManagement.updateUser(identifier, updates)
+export const validatePassword = userManagement.validatePassword.bind(userManagement);
