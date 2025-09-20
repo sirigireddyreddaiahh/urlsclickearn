@@ -1,3 +1,5 @@
+// File: nuxt.config.ts
+
 import { provider } from 'std-env'
 import { currentLocales } from './i18n/i18n'
 
@@ -20,14 +22,14 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-  siteToken: 'Urlsclickearn',
+    siteToken: 'Urlsclickearn',
     redirectStatusCode: '301',
     linkCacheTtl: 60,
     redirectWithQuery: false,
     homeURL: '',
     cfAccountId: '',
     cfApiToken: '',
-  dataset: 'Urlsclickearn',
+    dataset: 'Urlsclickearn',
     aiModel: '@cf/meta/llama-3.1-8b-instruct',
     aiPrompt: `You are a URL shortening assistant, please shorten the URL provided by the user into a SLUG. The SLUG information must come from the URL itself, do not make any assumptions. A SLUG is human-readable and should not exceed three words and can be validated using regular expressions {slugRegex} . Only the best one is returned, the format must be JSON reference {"slug": "example-slug"}`,
     caseSensitive: false,
@@ -114,7 +116,7 @@ export default defineNuxtConfig({
     strategy: 'no_prefix',
     detectBrowserLanguage: {
       useCookie: true,
-  cookieKey: 'urlsclickearn_i18n_redirected',
+      cookieKey: 'urlsclickearn_i18n_redirected',
       redirectOn: 'root',
     },
     baseURL: '/',
@@ -137,5 +139,28 @@ export default defineNuxtConfig({
     build: {
       target: 'esnext', // Ensure compatibility with top-level await
     },
+    plugins: [
+      {
+        name: 'fix-mime-top-this',
+        enforce: 'pre',
+        apply: 'build',
+        transform(code: string, id: string) {
+          // Only process the Mime.js file from mime@4.x dist/src/Mime.js
+          // The regex catches various node_modules layouts
+          if (!/node_modules[\\/].*mime.*dist[\\/]src[\\/]Mime\.js/.test(id)) {
+            return null
+          }
+          // Replace top-level `this` with safe globalThis/self fallback
+          const fixed = code.replace(
+            /\bthis\b/g,
+            '(typeof globalThis !== "undefined" ? globalThis : (typeof self !== "undefined" ? self : {}))'
+          )
+          return {
+            code: fixed,
+            map: null
+          }
+        }
+      }
+    ]
   },
 })
