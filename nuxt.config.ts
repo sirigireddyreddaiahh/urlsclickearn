@@ -63,7 +63,7 @@ export default defineNuxtConfig({
   },
 
   experimental: {
-    enforceModuleCompatibility: true,
+    enforceModuleCompatibility: false,
   },
 
   compatibilityDate: {
@@ -71,26 +71,20 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    preset: 'cloudflare-pages', // Ensure compatibility with Cloudflare Pages
     experimental: {
-      openAPI: true,
+      openAPI: false, // Disable experimental OpenAPI feature
     },
-    timing: true,
-    openAPI: {
-      production: 'runtime',
-      meta: {
-  title: 'Urlsclickearn API',
-        description: 'A Simple / Speedy / Secure Link Shortener with Analytics.',
-      },
-      route: '/_docs/openapi.json',
-      ui: {
-        scalar: {
-          route: '/_docs/scalar',
-        },
-        swagger: {
-          route: '/_docs/swagger',
-        },
-      },
+    externals: {
+      inline: ['zod', 'mime'], // Inline problematic dependencies
     },
+    timing: false, // Disable timing to simplify configuration
+    publicAssets: [
+      {
+        baseURL: '/',
+        dir: 'public',
+      },
+    ],
   },
 
   hub: {
@@ -100,7 +94,7 @@ export default defineNuxtConfig({
     cache: false,
     database: false,
     kv: true,
-    workers: provider !== 'cloudflare_pages',
+    workers: true, // Ensure workers are enabled for Cloudflare Pages
   },
 
   eslint: {
@@ -123,7 +117,7 @@ export default defineNuxtConfig({
   cookieKey: 'urlsclickearn_i18n_redirected',
       redirectOn: 'root',
     },
-    baseUrl: '/',
+    baseURL: '/',
     defaultLocale: 'en-US',
   },
 
@@ -137,5 +131,11 @@ export default defineNuxtConfig({
      * @default "./components/ui"
      */
     componentDir: './app/components/ui',
+  },
+
+  vite: {
+    build: {
+      target: 'esnext', // Ensure compatibility with top-level await
+    },
   },
 })

@@ -1,13 +1,25 @@
 // server/utils/users-file.ts
-import fs from 'fs/promises'
-import path from 'path'
+
+// Simplified server-side check
+const isServer = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
+
+let fs: any;
+let pathModule: any;
+
+async function initializeModules() {
+  if (isServer) {
+    fs = await import('fs/promises');
+    pathModule = await import('path');
+  }
+}
+
+const DATA_DIR = isServer ? (() => pathModule?.join(process.cwd(), 'server', 'data'))() : '';
+const USERS_FILE = isServer ? (() => pathModule?.join(DATA_DIR, 'users.json'))() : '';
+const SESSIONS_FILE = isServer ? (() => pathModule?.join(DATA_DIR, 'sessions.json'))() : '';
+const LOGIN_ATTEMPTS_FILE = isServer ? (() => pathModule?.join(DATA_DIR, 'login_attempts.json'))() : '';
+
 import { nanoid } from 'nanoid'
 import bcrypt from 'bcryptjs'
-
-const DATA_DIR = path.join(process.cwd(), 'server', 'data')
-const USERS_FILE = path.join(DATA_DIR, 'users.json')
-const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json')
-const LOGIN_ATTEMPTS_FILE = path.join(DATA_DIR, 'login_attempts.json')
 
 export interface UserProfile {
   firstName?: string
@@ -76,6 +88,7 @@ class UserManagementSystem {
   private passwordHistoryLimit: number = 5
 
   async ensureDataFiles(): Promise<void> {
+    await initializeModules();
     try {
       await fs.mkdir(DATA_DIR, { recursive: true })
       
