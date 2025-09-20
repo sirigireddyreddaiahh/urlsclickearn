@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 // import { currentLocales } from './i18n/i18n' // i18n removed, only English supported
 // File: nuxt.config.ts
 
 import { currentLocales } from './i18n/i18n'
+=======
+// File: nuxt.config.ts
+
+import { provider } from 'std-env'
+import { currentLocales } from './i18n/i18n'
+
+>>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
 export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
@@ -44,8 +52,17 @@ export default defineNuxtConfig({
   compatibilityDate: { cloudflare: '2025-05-08' },
   nitro: {
     preset: 'cloudflare-pages',
+<<<<<<< HEAD
     experimental: { openAPI: false },
   externals: { inline: ['zod', 'mime', 'bcryptjs', 'jsonwebtoken', 'nodemailer', 'nanoid', 'mysql-bricks', 'sql-bricks', 'ua-parser-js', 'intl-parse-accept-language', 'ufo', 'destr'] },
+=======
+    experimental: {
+      openAPI: false,
+    },
+    externals: {
+      inline: ['zod', 'mime'],  // keep inlining mime & zod
+    },
+>>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
     timing: false,
     publicAssets: [
       { baseURL: '/', dir: 'public' },
@@ -91,6 +108,7 @@ export default defineNuxtConfig({
       target: 'esnext',
     },
     ssr: {
+<<<<<<< HEAD
       noExternal: [
         'mime',
         'zod',
@@ -104,6 +122,13 @@ export default defineNuxtConfig({
         'intl-parse-accept-language',
         'ufo',
         'destr',
+=======
+      // Force some packages to be not external, so they are bundled correctly
+      noExternal: [
+        'mime',
+        'zod',
+        // add any other module you suspect might cause class extends errors
+>>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
       ],
     },
     plugins: [
@@ -112,12 +137,18 @@ export default defineNuxtConfig({
         enforce: 'pre',
         apply: 'build',
         transform(code: string, id: string) {
+<<<<<<< HEAD
           if (!/node_modules[\/].*mime.*dist[\/]src[\/]Mime.js/.test(id)) {
             return null;
+=======
+          if (!/node_modules[\\/].*mime.*dist[\\/]src[\\/]Mime\.js/.test(id)) {
+            return null
+>>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
           }
           const fixed = code.replace(
             /\bthis\b/g,
             '(typeof globalThis !== "undefined" ? globalThis : (typeof self !== "undefined" ? self : {}))'
+<<<<<<< HEAD
           );
           return {
             code: fixed,
@@ -126,5 +157,15 @@ export default defineNuxtConfig({
         }
       }
     ],
+=======
+          )
+          return {
+            code: fixed,
+            map: null
+          }
+        }
+      }
+    ]
+>>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
   },
 })
