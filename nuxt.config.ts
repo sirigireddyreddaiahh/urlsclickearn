@@ -3,7 +3,6 @@
 import { provider } from 'std-env'
 import { currentLocales } from './i18n/i18n'
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
@@ -73,14 +72,14 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'cloudflare-pages', // Ensure compatibility with Cloudflare Pages
+    preset: 'cloudflare-pages',
     experimental: {
-      openAPI: false, // Disable experimental OpenAPI feature
+      openAPI: false,
     },
     externals: {
-      inline: ['zod', 'mime'], // Inline problematic dependencies
+      inline: ['zod', 'mime'],  // keep inlining mime & zod
     },
-    timing: false, // Disable timing to simplify configuration
+    timing: false,
     publicAssets: [
       {
         baseURL: '/',
@@ -96,7 +95,7 @@ export default defineNuxtConfig({
     cache: false,
     database: false,
     kv: true,
-    workers: true, // Ensure workers are enabled for Cloudflare Pages
+    workers: true,
   },
 
   eslint: {
@@ -124,20 +123,21 @@ export default defineNuxtConfig({
   },
 
   shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
     prefix: '',
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
     componentDir: './app/components/ui',
   },
 
   vite: {
     build: {
-      target: 'esnext', // Ensure compatibility with top-level await
+      target: 'esnext',
+    },
+    ssr: {
+      // Force some packages to be not external, so they are bundled correctly
+      noExternal: [
+        'mime',
+        'zod',
+        // add any other module you suspect might cause class extends errors
+      ],
     },
     plugins: [
       {
@@ -145,12 +145,9 @@ export default defineNuxtConfig({
         enforce: 'pre',
         apply: 'build',
         transform(code: string, id: string) {
-          // Only process the Mime.js file from mime@4.x dist/src/Mime.js
-          // The regex catches various node_modules layouts
           if (!/node_modules[\\/].*mime.*dist[\\/]src[\\/]Mime\.js/.test(id)) {
             return null
           }
-          // Replace top-level `this` with safe globalThis/self fallback
           const fixed = code.replace(
             /\bthis\b/g,
             '(typeof globalThis !== "undefined" ? globalThis : (typeof self !== "undefined" ? self : {}))'
