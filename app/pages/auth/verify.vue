@@ -97,11 +97,13 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 
+// Page metadata
 definePageMeta({
   layout: 'auth',
   title: 'Verify Email'
 })
 
+// Reactive state
 const route = useRoute()
 const { verifyEmail, isLoading, error, clearError } = useAuth()
 
@@ -113,40 +115,40 @@ const resendCooldown = ref(0)
 
 let cooldownInterval = null
 
+// Computed properties
 const isFormValid = computed(() => 
   email.value && code.value.length === 6 && /^\d{6}$/.test(code.value)
 )
 
+// Input handler
 function onCodeInput(event) {
-  // Only allow digits
   const value = event.target.value.replace(/\D/g, '').slice(0, 6)
   code.value = value
   event.target.value = value
 }
 
+// Form submission
 async function handleVerify() {
   clearError()
   const result = await verifyEmail(email.value, code.value)
-  
+
   if (result.success) {
     success.value = result.message
-    // Redirect to login after success
-    setTimeout(() => {
-      navigateTo('/auth/login')
-    }, 2000)
+    setTimeout(() => navigateTo('/auth/login'), 2000)
   }
 }
 
+// Resend code
 async function resendCode() {
   if (resendCooldown.value > 0) return
-  
+
   isResending.value = true
   try {
     const response = await $fetch('/api/auth/signup', {
       method: 'POST',
       body: { email: email.value, resend: true }
     })
-    
+
     success.value = 'Verification code resent!'
     startResendCooldown()
   } catch (err) {
@@ -156,6 +158,7 @@ async function resendCode() {
   }
 }
 
+// Cooldown logic
 function startResendCooldown() {
   resendCooldown.value = 60
   cooldownInterval = setInterval(() => {
@@ -166,9 +169,9 @@ function startResendCooldown() {
   }, 1000)
 }
 
+// Lifecycle hooks
 onMounted(() => {
   if (!email.value) {
-    // If no email in query, redirect to signup
     navigateTo('/auth/signup')
   }
 })
