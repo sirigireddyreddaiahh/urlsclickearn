@@ -1,8 +1,7 @@
 import { readBody, setCookie, getRequestIP, getHeader } from 'h3'
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import { z } from 'zod'
 import { findUserByEmail, updateUser, userManagement } from '../../utils/users-file'
-import { sendLoginAlertEmail } from '../../utils/email'
 
 const JWT_SECRET = process.env.NUXT_JWT_SECRET || 'dev-jwt-secret-change-in-production'
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d'
@@ -122,18 +121,7 @@ export default defineEventHandler(async (event) => {
       secure: process.env.NODE_ENV === 'production'
     })
     
-    // Send login alert if enabled and this is a new device/location
-    if (user.settings?.loginAlerts && loginCount > 1) {
-      try {
-        await sendLoginAlertEmail(user.email, {
-          ip: clientIP,
-          device: deviceName || userAgent,
-          location: 'Unknown' // Could integrate with IP geolocation service
-        })
-      } catch (error) {
-        console.error('Failed to send login alert:', error)
-      }
-    }
+    // Login alert email functionality is currently disabled (no implementation in utils/email)
     
     console.log(`User login: ${normalizedEmail} from ${clientIP}`)
     

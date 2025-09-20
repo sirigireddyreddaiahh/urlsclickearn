@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import { getCookie } from 'h3'
 import { userManagement, findUserById } from '../utils/users-file'
 
