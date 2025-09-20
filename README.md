@@ -1,151 +1,109 @@
 # ⚡ Urlsclickearn
-# ⚡ Urlsclickearn
-**A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.**
-    alt="ccbikai/Urlsclickearn | Trendshift"
-<a href="https://trendshift.io/repositories/10421" target="_blank">
-<a href="https://www.uneed.best/tool/urlsclickearn" target="_blank">
-    src="https://trendshift.io/api/badge/repositories/10421"
-[<img src="https://devin.ai/assets/deepwiki-badge.png" alt="DeepWiki" height="20"/>](https://deepwiki.com/ccbikai/Urlsclickearn)
-    width="250"
-Experience the demo at [Urlsclickearn.Cool](https://urlsclickearn.cool/dashboard). Log in using the Site Token below:
-  />
-Site Token: UrlsclickearnCool
-<a href="https://news.ycombinator.com/item?id=40843683" target="_blank">
-  <img alt="Analytics" src="./docs/images/urlsclickearn.cool_dashboard.png"/>
-  <img alt="Links" src="./docs/images/urlsclickearn.cool_dashboard_links.png"/>
-  <img alt="Link Analytics" src="./docs/images/urlsclickearn.cool_dashboard_link_slug.png"/>
-    width="250"
-      - [Urlsclickearn Tool](https://github.com/zhuzhuyule/urlsclickearn-extension)
-      - [Raycast-Urlsclickearn](https://github.com/foru17/raycast-urlsclickearn)
-      - [Urlsclickearn Shortcuts](https://s.search1api.com/urlsclickearn001)
-      - [Urlsclickearn](https://apps.apple.com/app/id6745417598)
-  <img
-    "urlsclickearn": {
-    alt="Featured｜HelloGitHub"
-        "OPENAPI_SPEC_URL": "https://urlsclickearn.cool/_docs/openapi.json",
-        "API_KEY": "UrlsclickearnCool",
-  />
-</a>
-<a href="https://www.uneed.best/tool/urlsclickearn" target="_blank">
-  <img
-    src="https://www.uneed.best/POTW1.png"
-    alt="Uneed Badge"
-    width="250"
-    height="55"
-  />
-</a>
 
-[<img src="https://devin.ai/assets/deepwiki-badge.png" alt="DeepWiki" height="20"/>](https://deepwiki.com/ccbikai/Urlsclickearn)
+# ⚡ Urlsclickearn
+
+**A Fast, Serverless, and Secure Link Shortener with Analytics — 100% Cloudflare Native**
+
 ![Cloudflare](https://img.shields.io/badge/Cloudflare-F69652?style=flat&logo=cloudflare&logoColor=white)
 ![Nuxt](https://img.shields.io/badge/Nuxt-00DC82?style=flat&logo=nuxtdotjs&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 ![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white)
 
-![Hero](./public/image.png)
+---
 
-----
+## 🚀 Overview
+
+Urlsclickearn is a modern, privacy-friendly link shortener and analytics platform built for speed, security, and scalability. Powered entirely by Cloudflare (Workers, KV, Analytics), it requires zero server maintenance and is ready for global scale.
+
+**Live Demo:** [urlsclickearn.cool/dashboard](https://urlsclickearn.cool/dashboard)
+
+**Demo Site Token:** `UrlsclickearnCool`
+
+<details>
+  <summary><b>Dashboard Screenshots</b></summary>
+  <img alt="Analytics" src="./docs/images/urlsclickearn.cool_dashboard.png"/>
+  <img alt="Links" src="./docs/images/urlsclickearn.cool_dashboard_links.png"/>
+  <img alt="Link Analytics" src="./docs/images/urlsclickearn.cool_dashboard_link_slug.png"/>
+</details>
+
+---
 
 ## ✨ Features
 
-- **URL Shortening:** Compress your URLs to their minimal length.
-- **Analytics:** Monitor link analytics and gather insightful statistics.
-- **Serverless:** Deploy without the need for traditional servers.
-- **Customizable Slug:** Support for personalized slugs and case sensitivity.
-- **🪄 AI Slug:** Leverage AI to generate slugs.
-- **Link Expiration:** Set expiration dates for your links.
+- **URL Shortening** — Clean, minimal, and customizable slugs
+- **Analytics** — Real-time stats for every link
+- **Serverless** — Deploys to Cloudflare Workers/Pages, no servers needed
+- **Custom Slugs** — Personalized, case-sensitive slugs
+- **AI Slug Generation** — Smart, unique slugs with AI
+- **Link Expiration** — Set expiry dates for links
+- **OpenAPI** — Full API for integration
+- **Extensions** — Browser, Raycast, iOS Shortcuts, and more
 
-## 🪧 Demo
+---
 
-Experience the demo at [Urlsclickearn.xyz](https://urlsclickearn.xyz/dashboard). Log in using the Site Token below:
+## 🧱 Tech Stack
 
-```txt
-Site Token: UrlsclickearnCool
-```
+- **Nuxt 3** — Modern Vue framework
+- **Cloudflare Workers & KV** — Serverless compute and storage
+- **Cloudflare Analytics Engine** — Built-in analytics
+- **Tailwind CSS** — Utility-first styling
+- **shadcn-vue** — UI components
 
-<details>
-  <summary><b>Screenshots</b></summary>
-  <img alt="Analytics" src="./docs/images/urlsclickearn.xyz_dashboard.png"/>
-  <img alt="Links" src="./docs/images/urlsclickearn.xyz_dashboard_links.png"/>
-  <img alt="Link Analytics" src="./docs/images/urlsclickearn.xyz_dashboard_link_slug.png"/>
-</details>
+---
 
-## 🧱 Technologies Used
+## 🚀 Quick Start
 
-- **Framework**: [Nuxt](https://nuxt.com/)
-- **Database**: [Cloudflare Workers KV](https://developers.cloudflare.com/kv/)
-- **Analytics Engine**: [Cloudflare Workers Analytics Engine](https://developers.cloudflare.com/analytics/)
-- **UI Components**: [shadcn-vue](https://www.shadcn-vue.com/)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **Deployment**: [Cloudflare](https://www.cloudflare.com/)
+1. **Clone & Install**
+   ```sh
+   git clone https://github.com/ccbikai/urlsclickearnultrapro.git
+   cd urlsclickearnultrapro
+   pnpm install
+   ```
+2. **Configure**
+   - Copy `.env.example` to `.env` and fill in your Cloudflare/Brevo keys.
+   - See [docs/configuration.md](./docs/configuration.md) for all options.
+3. **Build & Preview**
+   ```sh
+   pnpm build
+   npx nuxthub preview
+   ```
+4. **Deploy**
+   - [Cloudflare Workers](./docs/deployment/workers.md) (recommended)
+   - [Cloudflare Pages](./docs/deployment/pages.md)
 
-## 🚗 Roadmap [WIP]
+---
 
-We welcome your contributions and PRs.
+## 🛠️ Configuration & API
 
-- [x] Browser Extension
-  - [Urlsclickearn Tool](https://github.com/zhuzhuyule/urlsclickearn-extension)
-- [x] Raycast Extension
-  - [Raycast-Urlsclickearn](https://github.com/foru17/raycast-urlsclickearn)
-- [x] Apple Shortcuts
-  - [Urlsclickearn Shortcuts](https://s.search1api.com/urlsclickearn001)
-- [x] iOS App
-  - [Urlsclickearn](https://apps.apple.com/app/id6745417598)
-- [ ] Enhanced Link Management (with Cloudflare D1)
-- [ ] Analytics Enhancements (Support for merging filter conditions)
-- [ ] Dashboard Performance Optimization (Infinite loading)
-- [ ] Units Test
+- [Configuration Guide](./docs/configuration.md)
+- [API Reference](./docs/api.md)
 
-## 🏗️ Deployment
+---
 
-> Video tutorial: [Watch here](https://www.youtube.com/watch?v=MkU23U2VE9E)
+## 🗺️ Roadmap & Extensions
 
-We currently support deployment to [Cloudflare Workers](./docs/deployment/workers.md) (recommended) and [Cloudflare Pages](./docs/deployment/pages.md).
+- [x] Browser Extension ([Chrome/Edge](https://github.com/zhuzhuyule/urlsclickearn-extension))
+- [x] Raycast Extension ([Raycast-Urlsclickearn](https://github.com/foru17/raycast-urlsclickearn))
+- [x] iOS Shortcuts ([Apple Shortcuts](https://s.search1api.com/urlsclickearn001))
+- [x] iOS App ([App Store](https://apps.apple.com/app/id6745417598))
+- [ ] Enhanced Link Management (Cloudflare D1)
+- [ ] Analytics: Advanced Filtering
+- [ ] Dashboard: Infinite Loading
+- [ ] Unit Tests
 
-## ⚒️ Configuration
+---
 
-[Configuration Docs](./docs/configuration.md)
+## 🙋 FAQs & Support
 
-## 🔌 API
+- [FAQs](./docs/faqs.md)
+- [OpenAPI/MCP Integration](#)
 
-[API Docs](./docs/api.md)
+---
 
-## 🧰 MCP
+## 💖 Credits & Sponsors
 
-We currently do not support native MCP Server, but we have OpenAPI documentation, and you can use the following method to support MCP.
-
-> Replace the domain name in `OPENAPI_SPEC_URL` with your own domain name.
->
-> The `API_KEY` is the same as the `NUXT_SITE_TOKEN` in the environment variables.
-
-```json
-{
-  "mcpServers": {
-  "urlsclickearn": {
-      "command": "uvx",
-      "args": [
-        "mcp-openapi-proxy"
-      ],
-      "env": {
-  "OPENAPI_SPEC_URL": "https://urlsclickearn.xyz/_docs/openapi.json",
-  "API_KEY": "UrlsclickearnCool",
-        "TOOL_WHITELIST": "/api/link/create"
-      }
-    }
-  }
-}
-```
-
-## 🙋🏻 FAQs
-
-[FAQs](./docs/faqs.md)
-
-## 💖 Credits
-
-1. [**Cloudflare**](https://www.cloudflare.com/)
-2. [**NuxtHub**](https://hub.nuxt.com/)
-3. [**Astroship**](https://astroship.web3templates.com/)
-
-## ☕ Sponsor
-
-1. [Follow Me on X(Twitter)](https://404.li/kai).
-2. [Become a sponsor to on GitHub](https://github.com/sponsors/ccbikai).
+- [Cloudflare](https://www.cloudflare.com/)
+- [NuxtHub](https://hub.nuxt.com/)
+- [Astroship](https://astroship.web3templates.com/)
+- [Sponsor on GitHub](https://github.com/sponsors/ccbikai)
+- [Follow on X (Twitter)](https://404.li/kai)
