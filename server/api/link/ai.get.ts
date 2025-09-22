@@ -1,4 +1,5 @@
 import { destr } from 'destr'
+import { createError } from 'h3'
 import { z } from 'zod'
 
 export default eventHandler(async (event) => {
@@ -20,11 +21,11 @@ export default eventHandler(async (event) => {
       { role: 'user', content: 'https://github.com/nuxt-hub/' },
       { role: 'assistant', content: '{"slug": "nuxt-hub"}' },
 
-  { role: 'user', content: 'https://urlsclickearn.xyz/' },
-  { role: 'assistant', content: '{"slug": "urlsclickearn-xyz"}' },
+      { role: 'user', content: 'https://urlsclickearn.xyz/' },
+      { role: 'assistant', content: '{"slug": "urlsclickearn-xyz"}' },
 
-  { role: 'user', content: 'https://github.com/ccbikai/urlsclickearn' },
-  { role: 'assistant', content: '{"slug": "urlsclickearn"}' },
+      { role: 'user', content: 'https://github.com/ccbikai/urlsclickearn' },
+      { role: 'assistant', content: '{"slug": "urlsclickearn"}' },
 
       {
         role: 'user',

@@ -102,22 +102,19 @@ export function useAccessLog(event: H3Event) {
 
   const userAgent = getHeader(event, 'user-agent') || ''
   const uaInfo = (new UAParser(userAgent, {
-    // eslint-disable-next-line ts/ban-ts-comment
-    // @ts-expect-error
-    browser: [Crawlers.browser || [], CLIs.browser || [], Emails.browser || [], Fetchers.browser || [], InApps.browser || [], MediaPlayers.browser || [], Vehicles.browser || []].flat(),
-    // eslint-disable-next-line ts/ban-ts-comment
-    // @ts-expect-error
-    device: [ExtraDevices.device || []].flat(),
+  // provide permissive any casts to satisfy TS
+    browser: (([Crawlers.browser || [], CLIs.browser || [], Emails.browser || [], Fetchers.browser || [], InApps.browser || [], MediaPlayers.browser || [], Vehicles.browser || []] as any).flat()),
+    device: (([ExtraDevices.device || []] as any).flat()),
   })).getResult()
 
-  const { request: { cf } } = event.context.cloudflare
+  const cf = (event.context && (event.context as any).cloudflare && (event.context as any).cloudflare.request && (event.context as any).cloudflare.request.cf) || (event.context && (event.context as any).cf) || {}
   const link = event.context.link || {}
 
   const isBot = cf?.botManagement?.verifiedBot
     || ['crawler', 'fetcher'].includes(uaInfo?.browser?.type || '')
     || ['spider', 'bot'].includes(uaInfo?.browser?.name?.toLowerCase() || '')
 
-  const { disableBotAccessLog } = useRuntimeConfig(event)
+  const { disableBotAccessLog } = useRuntimeConfig(event) || { disableBotAccessLog: false }
   if (isBot && disableBotAccessLog) {
     console.log('bot access log disabled:', userAgent)
     return Promise.resolve()

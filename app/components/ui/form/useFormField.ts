@@ -1,10 +1,10 @@
 import { FieldContextKey, useFieldError, useIsFieldDirty, useIsFieldTouched, useIsFieldValid } from 'vee-validate'
 import { inject } from 'vue'
-import { FORM_ITEM_INJECTION_KEY } from '~/composables'
+import { FORM_ITEM_INJECTION_KEY } from '@/composables'
 
 export function useFormField() {
   const fieldContext = inject(FieldContextKey)
-  const fieldItemContext = inject(FORM_ITEM_INJECTION_KEY)
+  const fieldItemContext = inject(FORM_ITEM_INJECTION_KEY) as string | undefined
 
   const fieldState = {
     valid: useIsFieldValid(),

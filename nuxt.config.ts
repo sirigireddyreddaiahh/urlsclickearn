@@ -1,15 +1,5 @@
-<<<<<<< HEAD
-// import { currentLocales } from './i18n/i18n' // i18n removed, only English supported
 // File: nuxt.config.ts
 
-import { currentLocales } from './i18n/i18n'
-=======
-// File: nuxt.config.ts
-
-import { provider } from 'std-env'
-import { currentLocales } from './i18n/i18n'
-
->>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
 export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
@@ -19,6 +9,15 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
   ],
+  components: [
+    // Application components (higher priority so app components override library ones)
+    { path: '~/app/components', pathPrefix: true, priority: 20, ignore: ['**/index.ts'] },
+    { path: '~/app/components/ui', pathPrefix: true, priority: 20 },
+    // Legacy top-level components folder
+    { path: '~/components', pathPrefix: true, ignore: ['**/index.ts'] },
+    // Specific drawer override (lower priority)
+    { path: '~/components/ui/drawer', priority: 10 },
+  ],
   devtools: { enabled: true },
   colorMode: { classSuffix: '' },
   runtimeConfig: {
@@ -26,7 +25,7 @@ export default defineNuxtConfig({
     redirectStatusCode: '301',
     linkCacheTtl: 60,
     redirectWithQuery: false,
-    homeURL: '',
+    homeURL: process.env.NUXT_HOME_URL || 'http://localhost:3000',
     cfAccountId: '',
     cfApiToken: '',
     dataset: 'Urlsclickearn',
@@ -38,6 +37,7 @@ export default defineNuxtConfig({
     public: {
       previewMode: '',
       slugDefaultLength: '6',
+      homeURL: process.env.NUXT_HOME_URL || 'http://localhost:3000',
     },
   },
   routeRules: {
@@ -52,17 +52,12 @@ export default defineNuxtConfig({
   compatibilityDate: { cloudflare: '2025-05-08' },
   nitro: {
     preset: 'cloudflare-pages',
-<<<<<<< HEAD
-    experimental: { openAPI: false },
-  externals: { inline: ['zod', 'mime', 'bcryptjs', 'jsonwebtoken', 'nodemailer', 'nanoid', 'mysql-bricks', 'sql-bricks', 'ua-parser-js', 'intl-parse-accept-language', 'ufo', 'destr'] },
-=======
     experimental: {
       openAPI: false,
     },
     externals: {
-      inline: ['zod', 'mime'],  // keep inlining mime & zod
+      inline: ['zod', 'mime'],
     },
->>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
     timing: false,
     publicAssets: [
       { baseURL: '/', dir: 'public' },
@@ -77,58 +72,16 @@ export default defineNuxtConfig({
     kv: true,
     workers: true,
   },
-  eslint: {
-    config: {
-      stylistic: true,
-      standalone: false,
-    },
-  },
-  i18n: {
-    locales: currentLocales,
-    compilation: {
-      strictMessage: false,
-      escapeHtml: true,
-    },
-    lazy: true,
-    strategy: 'no_prefix',
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'urlsclickearn_i18n_redirected',
-      redirectOn: 'root',
-    },
-    baseUrl: '/', // <-- FIXED property name
-    defaultLocale: 'en-US',
-  },
-  shadcn: {
-    prefix: '',
-    componentDir: './app/components/ui',
-  },
   vite: {
     build: {
       target: 'esnext',
     },
     ssr: {
-<<<<<<< HEAD
-      noExternal: [
-        'mime',
-        'zod',
-        'bcryptjs',
-        'jsonwebtoken',
-        'nodemailer',
-        'nanoid',
-        'mysql-bricks',
-        'sql-bricks',
-        'ua-parser-js',
-        'intl-parse-accept-language',
-        'ufo',
-        'destr',
-=======
       // Force some packages to be not external, so they are bundled correctly
       noExternal: [
         'mime',
         'zod',
         // add any other module you suspect might cause class extends errors
->>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
       ],
     },
     plugins: [
@@ -137,35 +90,47 @@ export default defineNuxtConfig({
         enforce: 'pre',
         apply: 'build',
         transform(code: string, id: string) {
-<<<<<<< HEAD
-          if (!/node_modules[\/].*mime.*dist[\/]src[\/]Mime.js/.test(id)) {
-            return null;
-=======
-          if (!/node_modules[\\/].*mime.*dist[\\/]src[\\/]Mime\.js/.test(id)) {
+          if (!/node_modules[\\/].*mime.*dist[\\/].*Mime\.js/.test(id)) {
             return null
->>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
           }
           const fixed = code.replace(
             /\bthis\b/g,
-            '(typeof globalThis !== "undefined" ? globalThis : (typeof self !== "undefined" ? self : {}))'
-<<<<<<< HEAD
-          );
-          return {
-            code: fixed,
-            map: null
-          };
-        }
-      }
-    ],
-=======
+            '(typeof globalThis !== "undefined" ? globalThis : (typeof self !== "undefined" ? self : {}))',
           )
           return {
             code: fixed,
-            map: null
+            map: null,
           }
-        }
-      }
-    ]
->>>>>>> 9e907d4b7ce2119187e8c623fac77954770712b4
+        },
+      },
+    ],
+    vue: {
+      // Only process .vue files as Vue SFCs. Avoid processing .ts files (schemas, utils)
+      include: [/\.vue$/],
+      exclude: [
+        /middleware\/.*\.ts$/,
+        /components\/.*\/index\.ts$/,
+        /app\.config\.ts$/,
+        /utils\/.*\.ts$/,
+        /composables\/.*\.ts$/,
+        /components\/.*\.ts$/, // Exclude all .ts files in components
+      ],
+      script: {
+        defineModel: true,
+        defineProps: true,
+        defineEmits: true,
+        defineExpose: true,
+      },
+    },
+  },
+  eslint: {
+    config: {
+      stylistic: true,
+      standalone: false,
+    },
+  },
+  shadcn: {
+    prefix: '',
+    componentDir: './app/components/ui',
   },
 })

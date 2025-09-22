@@ -14,18 +14,20 @@ async function onSubmit() {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.value, password: password.value })
+      body: JSON.stringify({ email: email.value, password: password.value }),
     })
     if (!res.ok) {
-      const j = await res.json().catch(()=>null)
+      const j = await res.json().catch(() => null)
       throw new Error(j?.statusMessage || j?.message || 'Login failed')
     }
     toast.success('Logged in')
     // after login server sets HttpOnly cookie — navigate to dashboard
     router.push('/dashboard')
-  } catch (err) {
+  }
+  catch (err) {
     toast.error(err.message || 'Login failed')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -34,24 +36,30 @@ async function onSubmit() {
 <template>
   <Card class="w-full max-w-sm">
     <CardHeader>
-      <CardTitle class="text-2xl">Login</CardTitle>
+      <CardTitle class="text-2xl">
+        Login
+      </CardTitle>
       <CardDescription>Login with your email and password</CardDescription>
     </CardHeader>
 
     <CardContent class="grid gap-4">
-      <form @submit.prevent="onSubmit" class="space-y-4">
+      <form class="space-y-4" @submit.prevent="onSubmit">
         <div>
           <label class="form-label">Email</label>
-          <input v-model="email" type="email" class="form-input" required />
+          <input v-model="email" type="email" class="form-input" required>
         </div>
         <div>
           <label class="form-label">Password</label>
-          <input v-model="password" type="password" class="form-input" required />
+          <input v-model="password" type="password" class="form-input" required>
         </div>
 
         <div class="flex gap-2">
-          <Button type="submit" :disabled="loading">{{ loading ? 'Logging...' : 'Login' }}</Button>
-          <NuxtLink to="/auth/reset-request" class="btn-outline">Forgot?</NuxtLink>
+          <Button type="submit" :disabled="loading">
+            {{ loading ? 'Logging...' : 'Login' }}
+          </Button>
+          <NuxtLink to="/auth/reset-request" class="btn-outline">
+            Forgot?
+          </NuxtLink>
         </div>
       </form>
     </CardContent>

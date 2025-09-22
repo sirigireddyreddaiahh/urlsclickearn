@@ -1,8 +1,7 @@
 // server/utils/users-file.ts
 
-
-import { nanoid } from 'nanoid'
 import * as bcrypt from 'bcryptjs'
+import { nanoid } from 'nanoid'
 
 export interface UserProfile {
   firstName?: string
@@ -25,7 +24,7 @@ export interface UserRecord {
   id: string
   email: string
   passwordHash: string
-  verified: boolean
+  verified?: boolean
   verificationCode?: string
   verificationExpiresAt?: string
   resetCode?: string
@@ -39,8 +38,8 @@ export interface UserRecord {
   loginCount: number
   failedLoginAttempts: number
   lockedUntil?: string
-  createdAt: string
-  updatedAt: string
+  createdAt?: string
+  updatedAt?: string
   deletedAt?: string
   metadata?: Record<string, any>
 }
@@ -52,7 +51,7 @@ export interface SessionRecord {
   ipAddress?: string
   userAgent?: string
   expiresAt: string
-  createdAt: string
+  createdAt?: string
   lastActivity: string
 }
 
@@ -71,7 +70,33 @@ const LOGIN_ATTEMPTS_KEY = 'login_attempts'
 
 function getKV() {
   // Nitro/Cloudflare: global KV binding
-  return (globalThis as any).KV || useStorage('kv')
+  // Provide a simple in-memory fallback for local development when KV or useStorage is not available.
+  const maybeKV = (globalThis as any).KV
+  if (maybeKV)
+    return maybeKV
+
+  try {
+    // useStorage is provided by Nitro at runtime — try to use it if present
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (globalThis as any).useStorage ? (globalThis as any).useStorage('kv') : undefined
+  }
+  catch (e) {
+    // fall through to in-memory
+  }
+
+  // In-memory fallback
+  if (!(globalThis as any).__DEV_KV_STORE) {
+    (globalThis as any).__DEV_KV_STORE = new Map<string, string>()
+    ;(globalThis as any).__DEV_KV_STORE.get = function (key: string) {
+      return Promise.resolve((globalThis as any).__DEV_KV_STORE.has(key) ? (globalThis as any).__DEV_KV_STORE.get(key) : undefined)
+    }
+    ;(globalThis as any).__DEV_KV_STORE.put = function (key: string, value: string) {
+      (globalThis as any).__DEV_KV_STORE.set(key, value)
+      return Promise.resolve()
+    }
+  }
+
+  return (globalThis as any).__DEV_KV_STORE
 }
 
 class UserManagementSystem {
@@ -95,8 +120,8 @@ class UserManagementSystem {
   async findUserByEmail(email: string): Promise<UserRecord | null> {
     const users = await this.readUsers()
     return users.find(u =>
-      u.email.toLowerCase() === email.toLowerCase() &&
-      u.status !== 'deleted'
+      u.email.toLowerCase() === email.toLowerCase()
+      && u.status !== 'deleted',
     ) || null
   }
 
@@ -108,7 +133,7 @@ class UserManagementSystem {
   async createUser(
     email: string,
     passwordHash: string,
-    profile?: Partial<UserProfile>
+    profile?: Partial<UserProfile>,
   ): Promise<UserRecord> {
     const users = await this.readUsers()
     const existing = users.find(u => u.email.toLowerCase() === email.toLowerCase())
@@ -128,7 +153,7 @@ class UserManagementSystem {
         emailNotifications: true,
         twoFactorEnabled: false,
         marketingEmails: false,
-        loginAlerts: true
+        loginAlerts: true,
       },
       role: 'user',
       status: 'active',
@@ -136,7 +161,7 @@ class UserManagementSystem {
       failedLoginAttempts: 0,
       createdAt: now,
       updatedAt: now,
-      metadata: {}
+      metadata: {},
     }
 
     users.push(user)
@@ -145,13 +170,13 @@ class UserManagementSystem {
   }
 
   async updateUser(
-    identifier: { id?: string; email?: string },
-    updates: Partial<UserRecord>
+    identifier: { id?: string, email?: string },
+    updates: Partial<UserRecord>,
   ): Promise<UserRecord> {
     const users = await this.readUsers()
     const idx = users.findIndex(u =>
-      (identifier.id && u.id === identifier.id) ||
-      (identifier.email && u.email.toLowerCase() === identifier.email.toLowerCase())
+      (identifier.id && u.id === identifier.id)
+      || (identifier.email && u.email.toLowerCase() === identifier.email.toLowerCase()),
     )
 
     if (idx === -1) {
@@ -161,12 +186,15 @@ class UserManagementSystem {
     const updatedUser = {
       ...users[idx],
       ...updates,
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
+    // Ensure id remains a string
+    if (!updatedUser.id)
+      updatedUser.id = users[idx]!.id || nanoid()
 
-    users[idx] = updatedUser
+    users[idx] = updatedUser as UserRecord
     await this.writeUsers(users)
-    return updatedUser
+    return updatedUser as UserRecord
   }
 
   async deleteUser(id: string, permanent: boolean = false): Promise<void> {
@@ -175,21 +203,23 @@ class UserManagementSystem {
     if (permanent) {
       const filtered = users.filter(u => u.id !== id)
       await this.writeUsers(filtered)
-    } else {
+    }
+    else {
       const idx = users.findIndex(u => u.id === id)
       if (idx !== -1) {
         users[idx] = {
           ...users[idx],
+          id: users[idx]!.id || nanoid(),
           status: 'deleted',
-          deletedAt: new Date().toISOString()
-        }
+          deletedAt: new Date().toISOString(),
+        } as UserRecord
         await this.writeUsers(users)
       }
     }
   }
 
   // Authentication Methods
-  async validatePassword(password: string): Promise<{ valid: boolean; errors: string[] }> {
+  async validatePassword(password: string): Promise<{ valid: boolean, errors: string[] }> {
     const errors: string[] = []
 
     if (password.length < 8) {
@@ -201,7 +231,7 @@ class UserManagementSystem {
     if (!/[a-z]/.test(password)) {
       errors.push('Password must contain at least one lowercase letter')
     }
-    if (!/[0-9]/.test(password)) {
+    if (!/\d/.test(password)) {
       errors.push('Password must contain at least one number')
     }
     if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
@@ -236,7 +266,7 @@ class UserManagementSystem {
     userId: string,
     token: string,
     ipAddress?: string,
-    userAgent?: string
+    userAgent?: string,
   ): Promise<SessionRecord> {
     const sessions = await this.readSessions()
     const now = new Date().toISOString()
@@ -249,7 +279,7 @@ class UserManagementSystem {
       userAgent,
       expiresAt: new Date(Date.now() + this.sessionDuration).toISOString(),
       createdAt: now,
-      lastActivity: now
+      lastActivity: now,
     }
 
     sessions.push(session)
@@ -261,7 +291,8 @@ class UserManagementSystem {
     const sessions = await this.readSessions()
     const session = sessions.find(s => s.token === token)
 
-    if (!session) return null
+    if (!session)
+      return null
 
     if (new Date(session.expiresAt) < new Date()) {
       // Session expired, remove it
@@ -293,7 +324,7 @@ class UserManagementSystem {
     email: string,
     success: boolean,
     ipAddress: string,
-    userAgent?: string
+    userAgent?: string,
   ): Promise<void> {
     const kv = getKV()
     const attempts = JSON.parse((await kv.get(LOGIN_ATTEMPTS_KEY)) || '[]')
@@ -303,7 +334,7 @@ class UserManagementSystem {
       success,
       ipAddress,
       userAgent,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     })
 
     // Keep only last 1000 attempts
@@ -331,7 +362,8 @@ class UserManagementSystem {
 
   async checkAccountLocked(email: string): Promise<boolean> {
     const user = await this.findUserByEmail(email)
-    if (!user || !user.lockedUntil) return false
+    if (!user || !user.lockedUntil)
+      return false
 
     if (new Date(user.lockedUntil) > new Date()) {
       return true
@@ -340,7 +372,7 @@ class UserManagementSystem {
     // Unlock if time has passed
     await this.updateUser({ email }, {
       lockedUntil: undefined,
-      failedLoginAttempts: 0
+      failedLoginAttempts: 0,
     })
 
     return false
@@ -361,8 +393,8 @@ class UserManagementSystem {
       usersByRole: {
         admin: users.filter(u => u.role === 'admin').length,
         moderator: users.filter(u => u.role === 'moderator').length,
-        user: users.filter(u => u.role === 'user').length
-      }
+        user: users.filter(u => u.role === 'user').length,
+      },
     }
   }
 
@@ -376,7 +408,7 @@ class UserManagementSystem {
     const attempts = JSON.parse((await kv.get(LOGIN_ATTEMPTS_KEY)) || '[]')
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
     const recentAttempts = attempts.filter((a: LoginAttemptRecord) =>
-      new Date(a.timestamp) > thirtyDaysAgo
+      new Date(a.timestamp) > thirtyDaysAgo,
     )
     await kv.put(LOGIN_ATTEMPTS_KEY, JSON.stringify(recentAttempts, null, 2))
   }
@@ -390,8 +422,10 @@ export const readUsers = () => userManagement.readUsers()
 export const writeUsers = (users: UserRecord[]) => userManagement.writeUsers(users)
 export const findUserByEmail = (email: string) => userManagement.findUserByEmail(email)
 export const findUserById = (id: string) => userManagement.findUserById(id)
-export const createUser = (email: string, passwordHash: string, profile?: Partial<UserProfile>) =>
-  userManagement.createUser(email, passwordHash, profile)
-export const updateUser = (identifier: any, updates: Partial<UserRecord>) =>
-  userManagement.updateUser(identifier, updates)
+export function createUser(email: string, passwordHash: string, profile?: Partial<UserProfile>) {
+  return userManagement.createUser(email, passwordHash, profile)
+}
+export function updateUser(identifier: any, updates: Partial<UserRecord>) {
+  return userManagement.updateUser(identifier, updates)
+}
 export const validatePassword = userManagement.validatePassword.bind(userManagement)

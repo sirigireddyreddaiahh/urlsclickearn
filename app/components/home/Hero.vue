@@ -30,7 +30,7 @@ const { title, description, github } = useAppConfig()
           <AreaChart
             class="w-5 h-5"
           />
-          {{ $t('dashboard.title') }}
+          Dashboard
         </HomeLink>
         <HomeLink
           size="lg"

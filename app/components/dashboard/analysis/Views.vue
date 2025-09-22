@@ -73,7 +73,7 @@ function formatTime(tick) {
 <template>
   <Card class="px-0 py-6 md:px-6">
     <CardTitle v-if="mode === 'full'" class="px-6 md:px-0">
-      {{ $t('dashboard.views') }}
+      Views
     </CardTitle>
     <component
       :is="chart"

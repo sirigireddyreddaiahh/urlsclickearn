@@ -1,5 +1,6 @@
 <script setup lang='ts'>
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils'
+import { shortTime } from '@/utils/time'
 
 const props = defineProps<{
   name: string

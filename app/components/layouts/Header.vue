@@ -1,6 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { Ellipsis, X, Menu } from 'lucide-vue-next'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { GitHubIcon } from 'vue3-simple-icons'
 
 const showMenu = ref(false)
@@ -8,12 +7,12 @@ const isScrolled = ref(false)
 const { title, github } = useAppConfig()
 
 // Enhanced scroll detection for dynamic header styling
-const handleScroll = () => {
+function handleScroll() {
   isScrolled.value = window.scrollY > 20
 }
 
 // Close mobile menu when clicking outside
-const closeMenuOnClickOutside = (event) => {
+function closeMenuOnClickOutside(event) {
   if (!event.target.closest('.mobile-menu') && !event.target.closest('.menu-button')) {
     showMenu.value = false
   }
@@ -36,18 +35,17 @@ watch(() => useRoute().path, () => {
 </script>
 
 <template>
-  <header 
+  <header
     class="sticky top-0 z-50 transition-all duration-300 ease-in-out"
     :class="[
-      isScrolled 
-        ? 'bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg' 
-        : 'bg-transparent'
+      isScrolled
+        ? 'header-scrolled'
+        : 'bg-transparent',
     ]"
   >
     <section class="pb-6">
       <nav class="container relative z-50 h-20 select-none">
         <div class="container relative flex flex-wrap items-center justify-between h-20 px-4 mx-auto overflow-hidden font-medium lg:justify-center">
-          
           <!-- Logo Section with enhanced styling -->
           <div class="flex items-center justify-start w-1/4 h-full pr-4">
             <NuxtLink
@@ -56,7 +54,7 @@ watch(() => useRoute().path, () => {
               class="flex items-center py-4 space-x-3 text-xl font-black text-slate-900 dark:text-slate-100 md:py-0 group transition-all duration-300 hover:scale-105"
             >
               <div class="relative">
-                <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg group-hover:shadow-xl transition-all duration-300">
+                <span class="flex items-center justify-center w-10 h-10 rounded-xl brand-gradient shadow-lg group-hover:shadow-xl transition-all duration-300">
                   <img
                     src="/sink.png"
                     :alt="title"
@@ -65,7 +63,7 @@ watch(() => useRoute().path, () => {
                   >
                 </span>
                 <!-- Animated ring on hover -->
-                <div class="absolute inset-0 rounded-xl ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-300 animate-pulse opacity-0 group-hover:opacity-100"></div>
+                <div class="absolute inset-0 rounded-xl ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-300 animate-pulse opacity-0 group-hover:opacity-100" />
               </div>
               <span class="bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent font-extrabold tracking-tight">
                 {{ title }}
@@ -76,9 +74,8 @@ watch(() => useRoute().path, () => {
           <!-- Desktop Navigation -->
           <div class="hidden md:flex items-center w-3/4 h-full">
             <div class="flex-col w-full h-auto overflow-hidden rounded-lg md:overflow-visible md:rounded-none md:relative md:flex md:flex-row">
-              
               <div class="w-auto mx-4" />
-              
+
               <div class="flex flex-row items-center justify-end w-full space-x-6">
                 <!-- Dashboard Link -->
                 <NuxtLink
@@ -86,21 +83,21 @@ watch(() => useRoute().path, () => {
                   :title="`${title} Dashboard`"
                   class="relative px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium group"
                 >
-                  <span class="relative z-10">{{ $t('dashboard.title') }}</span>
+                  <span class="relative z-10">Dashboard Title</span>
                   <!-- Animated underline -->
-                  <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 group-hover:w-full transition-all duration-300"></div>
+                  <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 group-hover:w-full transition-all duration-300" />
                 </NuxtLink>
 
                 <!-- Signup/Login Buttons -->
                 <NuxtLink
                   to="/auth/signup"
-                  class="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-all duration-300"
+                  class="px-4 py-2 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-lg transition-all duration-300 border border-black/10"
                 >
                   Signup
                 </NuxtLink>
                 <NuxtLink
                   to="/auth/login"
-                  class="px-4 py-2 text-white bg-gray-600 hover:bg-gray-700 rounded-lg transition-all duration-300"
+                  class="px-4 py-2 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-lg transition-all duration-300 border border-black/10"
                 >
                   Login
                 </NuxtLink>
@@ -111,17 +108,16 @@ watch(() => useRoute().path, () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   title="GitHub Repository"
-                  class="inline-flex items-center px-4 py-2 text-sm font-semibold leading-5 text-white bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 group"
+                  class="inline-flex items-center px-4 py-2 text-sm font-semibold leading-5 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 group border border-black/10"
                 >
                   <GitHubIcon class="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
                   <span>GitHub</span>
                   <!-- Shine effect -->
-                  <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine"></div>
+                  <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
                 </a>
 
-                <!-- Language and Theme Switches -->
+                <!-- Theme Switch -->
                 <div class="flex items-center space-x-3">
-                  <SwitchLanguage />
                   <SwitchTheme />
                 </div>
               </div>
@@ -131,24 +127,24 @@ watch(() => useRoute().path, () => {
           <!-- Mobile Menu Button -->
           <button
             class="menu-button md:hidden relative flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            @click="showMenu = !showMenu"
             :aria-expanded="showMenu"
             aria-label="Toggle navigation menu"
+            @click="showMenu = !showMenu"
           >
             <!-- Animated hamburger icon -->
             <div class="flex flex-col justify-center items-center w-6 h-6 space-y-1">
-              <span 
+              <span
                 class="block h-0.5 w-5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"
                 :class="showMenu ? 'rotate-45 translate-y-1.5' : ''"
-              ></span>
-              <span 
+              />
+              <span
                 class="block h-0.5 w-5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"
                 :class="showMenu ? 'opacity-0' : ''"
-              ></span>
-              <span 
+              />
+              <span
                 class="block h-0.5 w-5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"
                 :class="showMenu ? '-rotate-45 -translate-y-1.5' : ''"
-              ></span>
+              />
             </div>
           </button>
         </div>
@@ -186,18 +182,18 @@ watch(() => useRoute().path, () => {
                   :title="`${title} Dashboard`"
                   class="flex items-center w-full px-4 py-3 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all duration-300 font-medium"
                 >
-                  {{ $t('dashboard.title') }}
+                  Dashboard Title
                 </NuxtLink>
 
                 <NuxtLink
                   to="/auth/signup"
-                  class="flex items-center w-full px-4 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-all duration-300 font-medium"
+                  class="flex items-center w-full px-4 py-3 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-xl transition-all duration-300 font-medium border border-black/10"
                 >
                   Signup
                 </NuxtLink>
                 <NuxtLink
                   to="/auth/login"
-                  class="flex items-center w-full px-4 py-3 text-white bg-gray-600 hover:bg-gray-700 rounded-xl transition-all duration-300 font-medium"
+                  class="flex items-center w-full px-4 py-3 text-white bg-gradient-to-r from-[#FF6B35] to-[#F72B7E] hover:from-[#F72B7E] hover:to-[#FF6B35] rounded-xl transition-all duration-300 font-medium border border-black/10"
                 >
                   Login
                 </NuxtLink>
@@ -224,7 +220,6 @@ watch(() => useRoute().path, () => {
                 <div class="flex items-center justify-between pt-4 border-t border-slate-200/50 dark:border-slate-700/50">
                   <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Settings</span>
                   <div class="flex items-center space-x-3">
-                    <SwitchLanguage />
                     <SwitchTheme />
                   </div>
                 </div>
@@ -246,6 +241,38 @@ watch(() => useRoute().path, () => {
 
 .animate-shine {
   animation: shine 0.6s ease-out;
+}
+
+/* Brand gradient and color system */
+.brand-gradient {
+  background: linear-gradient(135deg, #FF6B35 0%, #F72B7E 100%);
+}
+
+/* Enhanced button gradients */
+.btn-gradient {
+  background: linear-gradient(135deg, #FF6B35 0%, #F72B7E 100%);
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #F72B7E 0%, #FF6B35 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.header-scrolled {
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 8px 24px rgba(26,26,26,0.08);
+  border-bottom: 1px solid #e1e8ed;
+}
+
+@media (prefers-color-scheme: dark) {
+  .header-scrolled {
+    background: rgba(26,26,26,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
 }
 
 /* Enhanced backdrop blur for better browser support */

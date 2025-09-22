@@ -14,7 +14,7 @@ defineRouteMeta({
 
 export default eventHandler(() => {
   return {
-  name: 'Urlsclickearn',
-  url: 'https://urlsclickearn.xyz',
+    name: 'Urlsclickearn',
+    url: 'https://urlsclickearn.xyz',
   }
 })

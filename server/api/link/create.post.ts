@@ -1,4 +1,5 @@
 import { LinkSchema } from '@@/schemas/link'
+import { createError } from 'h3'
 
 defineRouteMeta({
   openAPI: {

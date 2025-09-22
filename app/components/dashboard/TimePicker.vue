@@ -66,29 +66,29 @@ onBeforeMount(() => {
     </SelectTrigger>
     <SelectContent>
       <SelectItem value="last-5m">
-        {{ $t('dashboard.time_picker.last_5m') }}
+        Last 5 Minutes
       </SelectItem>
       <SelectItem value="last-10m">
-        {{ $t('dashboard.time_picker.last_10m') }}
+        Last 10 Minutes
       </SelectItem>
       <SelectItem value="last-30m">
-        {{ $t('dashboard.time_picker.last_30m') }}
+        Last 30 Minutes
       </SelectItem>
       <SelectItem value="last-1h">
-        {{ $t('dashboard.time_picker.last_1h') }}
+        Last 1 Hour
       </SelectItem>
       <SelectItem value="last-6h">
-        {{ $t('dashboard.time_picker.last_6h') }}
+        Last 6 Hours
       </SelectItem>
       <SelectItem value="last-12h">
-        {{ $t('dashboard.time_picker.last_12h') }}
+        Last 12 Hours
       </SelectItem>
       <SelectItem value="last-24h">
-        {{ $t('dashboard.time_picker.last_24h') }}
+        Last 24 Hours
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="today">
-        {{ $t('dashboard.time_picker.today') }}
+        Today
       </SelectItem>
     </SelectContent>
   </Select>

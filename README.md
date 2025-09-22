@@ -107,3 +107,40 @@ Urlsclickearn is a modern, privacy-friendly link shortener and analytics platfor
 - [Astroship](https://astroship.web3templates.com/)
 - [Sponsor on GitHub](https://github.com/sponsors/ccbikai)
 - [Follow on X (Twitter)](https://404.li/kai)
+
+---
+
+## 🔐 OAuth & Deployment Environment Variables
+
+If you plan to enable Google or GitHub OAuth, add the following env vars to your `.env` (or your host's secret manager):
+
+- GitHub
+   - `GITHUB_CLIENT_ID`
+   - `GITHUB_CLIENT_SECRET`
+
+- Google
+   - `GOOGLE_CLIENT_ID`
+   - `GOOGLE_CLIENT_SECRET`
+
+- Base redirect host (optional, defaults to http://localhost:3000 in dev)
+   - `OAUTH_BASE_URL` (e.g. `https://yourdomain.example`)
+
+Example OAuth usage (scaffolded endpoints included):
+
+- Start OAuth flow: `/api/auth/oauth/github` or `/api/auth/oauth/google`
+- Callback: `/api/auth/oauth/callback?provider=github&code=...`
+
+The callback endpoint exchanges the code for a token and returns the provider profile JSON. You should extend the callback to create/link users in your app and issue your session token.
+
+### Cloudflare / Wrangler notes
+
+- Store production secrets (Brevo API key, Cloudflare API tokens) in your Cloudflare Pages / Workers secret store or in Wrangler's secrets.
+- Required env vars for full production deployment:
+   - `BREVO_API_KEY` (Brevo / Sendinblue transactional email API key)
+   - `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` (if using Cloudflare APIs from scripts)
+   - `NUXT_JWT_SECRET`
+
+When deploying with Wrangler, create an API token with the minimum required scopes (e.g., `Workers Scripts:Edit`, `Account:Read`, `Workers KV:Read/Write` if your deployment needs KV writes) and store it securely.
+
+#
+#Client secret

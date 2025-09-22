@@ -1,3 +1,5 @@
+import { createError } from 'h3'
+
 export default eventHandler(async (event) => {
   const slug = getQuery(event).slug
   if (slug) {

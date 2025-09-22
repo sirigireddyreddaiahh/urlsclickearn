@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { FORM_ITEM_INJECTION_KEY } from '~/composables'
+import { FORM_ITEM_INJECTION_KEY } from '@/composables'
 </script>
 
 <script lang="ts" setup>

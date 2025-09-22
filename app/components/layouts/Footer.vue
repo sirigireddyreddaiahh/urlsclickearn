@@ -12,7 +12,7 @@ const socialLinks = computed(() => [
     icon: GmailIcon,
     show: !!email,
     color: 'hover:text-red-500',
-    label: 'layouts.footer.social.email'
+    label: 'layouts.footer.social.email',
   },
   {
     href: telegram,
@@ -21,7 +21,7 @@ const socialLinks = computed(() => [
     show: !!telegram,
     color: 'hover:text-blue-500',
     label: 'layouts.footer.social.telegram',
-    external: true
+    external: true,
   },
   {
     href: blog,
@@ -30,7 +30,7 @@ const socialLinks = computed(() => [
     show: !!blog,
     color: 'hover:text-orange-500',
     label: 'layouts.footer.social.blog',
-    external: true
+    external: true,
   },
   {
     href: twitter,
@@ -39,7 +39,7 @@ const socialLinks = computed(() => [
     show: !!twitter,
     color: 'hover:text-slate-900 dark:hover:text-white',
     label: 'layouts.footer.social.twitter',
-    external: true
+    external: true,
   },
   {
     href: mastodon,
@@ -48,7 +48,7 @@ const socialLinks = computed(() => [
     show: !!mastodon,
     color: 'hover:text-purple-500',
     label: 'layouts.footer.social.mastodon',
-    external: true
+    external: true,
   },
   {
     href: github,
@@ -57,19 +57,18 @@ const socialLinks = computed(() => [
     show: !!github,
     color: 'hover:text-slate-900 dark:hover:text-white',
     label: 'layouts.footer.social.github',
-    external: true
-  }
+    external: true,
+  },
 ].filter(link => link.show))
 </script>
 
 <template>
   <footer class="relative bg-gradient-to-t from-slate-100 to-white dark:from-slate-900 dark:to-slate-800 border-t border-slate-200/50 dark:border-slate-700/50">
     <!-- Decorative top border -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
-    
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+
     <section class="md:pt-8">
       <div class="container flex flex-col items-center py-8 mx-auto sm:flex-row max-w-7xl px-4 sm:px-6 lg:px-8">
-        
         <!-- Logo and Brand Section -->
         <div class="flex-shrink-0 mb-6 sm:mb-0">
           <NuxtLink
@@ -80,18 +79,18 @@ const socialLinks = computed(() => [
           >
             <!-- Enhanced logo with gradient background -->
             <div class="relative">
-              <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                <img 
-                  src="/sink.png" 
+              <div class="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                <img
+                  src="/sink.png"
                   :alt="title"
                   class="w-8 h-8 rounded-lg"
                   loading="lazy"
                 >
               </div>
               <!-- Animated ring on hover -->
-              <div class="absolute inset-0 rounded-xl ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
+              <div class="absolute inset-0 rounded-xl ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-300 opacity-0 group-hover:opacity-100" />
             </div>
-            
+
             <!-- Brand name with gradient text -->
             <span class="bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent font-extrabold tracking-tight">
               {{ title }}
@@ -130,19 +129,19 @@ const socialLinks = computed(() => [
                 :class="link.color"
               >
                 <!-- Screen reader text -->
-                <span class="sr-only">{{ $t(link.label) }}</span>
-                
+                <span class="sr-only">{{ link.title }}</span>
+
                 <!-- Icon with enhanced styling -->
-                <component 
-                  :is="link.icon" 
+                <component
+                  :is="link.icon"
                   class="w-6 h-6 transition-all duration-300 group-hover:drop-shadow-lg"
                 />
-                
+
                 <!-- Hover effect background -->
-                <div class="absolute inset-0 rounded-full bg-current opacity-0 group-hover:opacity-10 transition-opacity duration-300 transform scale-0 group-hover:scale-100"></div>
-                
+                <div class="absolute inset-0 rounded-full bg-current opacity-0 group-hover:opacity-10 transition-opacity duration-300 transform scale-0 group-hover:scale-100" />
+
                 <!-- Ripple effect on click -->
-                <div class="absolute inset-0 rounded-full bg-current opacity-0 group-active:opacity-20 transition-opacity duration-150 transform scale-0 group-active:scale-125"></div>
+                <div class="absolute inset-0 rounded-full bg-current opacity-0 group-active:opacity-20 transition-opacity duration-150 transform scale-0 group-active:scale-125" />
               </a>
             </template>
           </div>
@@ -157,20 +156,20 @@ const socialLinks = computed(() => [
               Built with ❤️ using Nuxt.js, Vue.js & Tailwind CSS
             </div>
             <div class="flex space-x-4">
-              <NuxtLink 
-                to="/privacy" 
+              <NuxtLink
+                to="/privacy"
                 class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300"
               >
                 Privacy
               </NuxtLink>
-              <NuxtLink 
-                to="/terms" 
+              <NuxtLink
+                to="/terms"
                 class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300"
               >
                 Terms
               </NuxtLink>
-              <NuxtLink 
-                to="/contact" 
+              <NuxtLink
+                to="/contact"
                 class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300"
               >
                 Contact
@@ -223,6 +222,26 @@ const socialLinks = computed(() => [
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+}
+
+/* Brand colors */
+.brand-gradient {
+  background: linear-gradient(135deg, #FF6B35 0%, #F72B7E 100%);
+}
+
+.footer-dark {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.footer-link {
+  color: #333333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer-link {
+    color: #f8f9fa;
   }
 }
 </style>

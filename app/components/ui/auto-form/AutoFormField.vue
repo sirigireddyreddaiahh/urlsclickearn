@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="U extends ZodAny">
+<script setup lang="ts">
 import type { ZodAny } from 'zod'
 import { computed } from 'vue'
 import type { Config, ConfigItem, Shape } from './interface'
@@ -8,7 +8,7 @@ import useDependencies from './dependencies'
 const props = defineProps<{
   fieldName: string
   shape: Shape
-  config?: ConfigItem | Config<U>
+  config?: ConfigItem | Config<ZodAny>
 }>()
 
 function isValidConfig(config: any): config is ConfigItem {
@@ -21,17 +21,26 @@ const delegatedProps = computed(() => {
   return undefined
 })
 
+const componentToRender = computed(() => {
+  // prefer explicit config.component
+  if (isValidConfig(props.config)) {
+    if (typeof props.config.component === 'string') {
+      return INPUT_COMPONENTS[props.config.component] || null
+    }
+    return props.config.component
+  }
+
+  const handler = DEFAULT_ZOD_HANDLERS[props.shape?.type]
+  return handler ? INPUT_COMPONENTS[handler] : null
+})
+
 const { isDisabled, isHidden, isRequired, overrideOptions } = useDependencies(props.fieldName)
 </script>
 
 <template>
   <component
-    :is="isValidConfig(config)
-      ? typeof config.component === 'string'
-        ? INPUT_COMPONENTS[config.component!]
-        : config.component
-      : INPUT_COMPONENTS[DEFAULT_ZOD_HANDLERS[shape.type]] "
-    v-if="!isHidden"
+    :is="componentToRender"
+    v-if="componentToRender && !isHidden"
     :field-name="fieldName"
     :label="shape.schema?.description"
     :required="isRequired || shape.required"

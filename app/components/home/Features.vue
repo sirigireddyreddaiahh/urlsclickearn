@@ -1,36 +1,35 @@
 <script setup>
 import { AreaChart, Hourglass, Link, Paintbrush, ServerOff, Sparkles } from 'lucide-vue-next'
 
-const { t } = useI18n()
 const features = computed(() => [
   {
-    title: t('home.features.url_shortening.title'),
-    description: t('home.features.url_shortening.description'),
+    title: 'URL Shortening',
+    description: 'Shorten your URLs easily.',
     icon: Link,
   },
   {
-    title: t('home.features.analytics.title'),
-    description: t('home.features.analytics.description'),
+    title: 'Analytics',
+    description: 'Track your links with detailed analytics.',
     icon: AreaChart,
   },
   {
-    title: t('home.features.serverless.title'),
-    description: t('home.features.serverless.description'),
+    title: 'Serverless',
+    description: 'Enjoy serverless architecture.',
     icon: ServerOff,
   },
   {
-    title: t('home.features.customizable_slug.title'),
-    description: t('home.features.customizable_slug.description'),
+    title: 'Customizable Slug',
+    description: 'Create custom slugs for your links.',
     icon: Paintbrush,
   },
   {
-    title: t('home.features.ai_slug.title'),
-    description: t('home.features.ai_slug.description'),
+    title: 'AI Slug',
+    description: 'Generate AI-powered slugs.',
     icon: Sparkles,
   },
   {
-    title: t('home.features.link_expiration.title'),
-    description: t('home.features.link_expiration.description'),
+    title: 'Link Expiration',
+    description: 'Set expiration dates for your links.',
     icon: Hourglass,
   },
 ])
@@ -40,10 +39,10 @@ const features = computed(() => [
   <main class="pt-16 md:py-12">
     <div class="md:pb-12">
       <h2 class="text-4xl font-bold lg:text-5xl lg:tracking-tight">
-        {{ $t('home.features.title') }}
+        Features
       </h2>
       <p class="my-8 text-lg md:mb-0 text-slate-600">
-        {{ $t('home.features.subtitle') }}
+        Explore the amazing features we offer.
       </p>
     </div>
 

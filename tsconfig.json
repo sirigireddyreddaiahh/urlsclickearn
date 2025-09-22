@@ -1,4 +1,37 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json"
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "moduleResolution": "node",
+    "paths": {
+      "@/utils": ["./app/utils"],
+      "@/utils/*": ["./app/utils/*"],
+      "@/components/*": ["./app/components/*"],
+      "@/composables/*": ["./app/composables/*"],
+      "@/composables": ["./app/composables/index.ts"],
+      "@/middleware/*": ["./app/middleware/*"],
+      "@/pages/*": ["./app/pages/*"],
+      "@/server/*": ["./server/*"],
+      "@/schemas/*": ["./schemas/*"],
+      "@@/schemas/*": ["./schemas/*"],
+      "~/utils/*": ["./server/utils/*"],
+      "#app": [".nuxt/types/app", "node_modules/nuxt/dist/app"]
+    },
+    "types": ["vue", "@types/node", "@vue/runtime-dom"],
+    "strict": true
+  },
+  "include": [
+    ".nuxt/**/*",
+    "app/**/*.ts",
+    "app/**/*.d.ts",
+    "app/**/*.tsx",
+    "app/**/*.vue",
+    "server/**/*.ts",
+    "server/**/*.d.ts",
+    "server/**/*.tsx",
+    "schemas/**/*.ts",
+    "types/**/*.d.ts"
+  ],
+  "exclude": ["node_modules", ".nuxt", "dist"]
 }

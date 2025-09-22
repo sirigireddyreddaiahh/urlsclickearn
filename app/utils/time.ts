@@ -8,13 +8,6 @@ export function getTimeZone() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone
 }
 
-export function getLocale() {
-  if (typeof Intl === 'undefined')
-    return navigator.language
-
-  return Intl.DateTimeFormat().resolvedOptions().locale
-}
-
 export function shortDate(unix = 0) {
   const shortDate = new Intl.DateTimeFormat(undefined, {
     dateStyle: 'short',
@@ -23,7 +16,7 @@ export function shortDate(unix = 0) {
 }
 
 export function longDate(unix = 0) {
-  return new Date(unix * 1000).toLocaleString()
+  return new Date(unix * 1000).toString()
 }
 
 export function shortTime(unix = 0) {

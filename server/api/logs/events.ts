@@ -19,11 +19,13 @@ interface WAEEvents {
 function events2logs(events: WAEEvents[]) {
   return events.map((event) => {
     const blobs = Array.from({ length: Object.keys(blobsMap).length }).fill(0).reduce<string[]>((_, _c, i) => {
-      _.push(event[`blob${i + 1}`])
+      const v = event[`blob${i + 1}`]
+      _.push(typeof v === 'string' ? v : '')
       return _
     }, [])
     const doubles = Array.from({ length: Object.keys(doublesMap).length }).fill(0).reduce<number[]>((_, _c, i) => {
-      _.push(+event[`double${i + 1}`])
+      const v = event[`double${i + 1}`]
+      _.push(typeof v === 'string' ? Number(v) : Number(v || 0))
       return _
     }, [])
     return {

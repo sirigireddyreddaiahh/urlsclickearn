@@ -1,3 +1,5 @@
+import { createError } from 'h3'
+
 export default eventHandler(async (event) => {
   const { previewMode } = useRuntimeConfig(event).public
   if (previewMode) {

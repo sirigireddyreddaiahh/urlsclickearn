@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "urlsclickearn",
+  "main": "dist/server/index.mjs",
+  "assets": {
+    "binding": "PUBLIC_ASSETS",
+    "directory": "dist"
+  },
+  "pages_build_output_dir": "dist",
+  "compatibility_date": "2025-09-12",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "keep_vars": true,
+  "upload_source_maps": true,
+  "ai": {
+    "binding": "AI"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "5aac05d5e58f4728ae7912cd5910f650"
+    }
+  ]
+}

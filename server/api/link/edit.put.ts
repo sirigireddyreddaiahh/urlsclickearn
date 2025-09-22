@@ -1,5 +1,6 @@
 import type { z } from 'zod'
 import { LinkSchema } from '@@/schemas/link'
+import { createError } from 'h3'
 
 export default eventHandler(async (event) => {
   const { previewMode } = useRuntimeConfig(event).public
