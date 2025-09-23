@@ -110,9 +110,11 @@ export function useAccessLog(event: H3Event) {
   const cf = (event.context && (event.context as any).cloudflare && (event.context as any).cloudflare.request && (event.context as any).cloudflare.request.cf) || (event.context && (event.context as any).cf) || {}
   const link = event.context.link || {}
 
+  const browserType = typeof uaInfo?.browser?.type === 'string' ? uaInfo.browser.type : ''
+  const browserName = typeof uaInfo?.browser?.name === 'string' ? uaInfo.browser.name : ''
   const isBot = cf?.botManagement?.verifiedBot
-    || ['crawler', 'fetcher'].includes(uaInfo?.browser?.type || '')
-    || ['spider', 'bot'].includes(uaInfo?.browser?.name?.toLowerCase() || '')
+    || ['crawler', 'fetcher'].includes(browserType)
+    || ['spider', 'bot'].includes(browserName.toLowerCase())
 
   const { disableBotAccessLog } = useRuntimeConfig(event) || { disableBotAccessLog: false }
   if (isBot && disableBotAccessLog) {
