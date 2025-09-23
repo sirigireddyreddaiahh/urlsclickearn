@@ -12,7 +12,7 @@ import {
   Vehicles,
 } from 'ua-parser-js/extensions'
 import { parseURL } from 'ufo'
-import { getFlag } from '@/utils/flag'
+import { getFlag } from '../../app/utils/flag'
 
 function toBlobNumber(blob: string) {
   return +blob.replace(/\D/g, '')
