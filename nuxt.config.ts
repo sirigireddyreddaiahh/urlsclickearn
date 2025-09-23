@@ -1,6 +1,7 @@
 // File: nuxt.config.ts
 
 export default defineNuxtConfig({
+
   modules: [
     '@nuxthub/core',
     'shadcn-nuxt',
@@ -47,22 +48,15 @@ export default defineNuxtConfig({
     '/dashboard': { redirect: '/dashboard/links' },
     '/login': { redirect: '/auth/login' },
     '/signup': { redirect: '/auth/signup' },
+    'publicAssets': [
+      { baseURL: '/', dir: 'public' },
+    ],
   },
-  future: { compatibilityVersion: 4 },
-  experimental: { enforceModuleCompatibility: false },
-  compatibilityDate: { cloudflare: '2025-05-08' },
   nitro: {
     preset: 'cloudflare-pages',
     experimental: {
       openAPI: false,
     },
-    externals: {
-      inline: ['zod', 'mime'],
-    },
-    timing: false,
-    publicAssets: [
-      { baseURL: '/', dir: 'public' },
-    ],
   },
   hub: {
     ai: true,

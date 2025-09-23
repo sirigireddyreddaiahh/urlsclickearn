@@ -44,8 +44,8 @@ declare module '@/utils/flag' {
 declare global {
   interface UserRecord {
     id: string
-    email?: string
-    passwordHash?: string
+    email: string
+    passwordHash: string
     verified?: boolean
     createdAt?: string
     updatedAt?: string
@@ -67,7 +67,7 @@ declare module 'ua-parser-js/extensions' {
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
 
-  const component: DefineComponent<{}, {}, any>
+  const component: DefineComponent<object, object, any>
   export default component
 }
 
