@@ -38,6 +38,7 @@ export default defineNuxtConfig({
       previewMode: '',
       slugDefaultLength: '6',
       homeURL: process.env.NUXT_HOME_URL || 'http://localhost:3000',
+      googleClientId: process.env.GOOGLE_CLIENT_ID || '',
     },
   },
   routeRules: {

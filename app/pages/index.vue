@@ -233,6 +233,34 @@ onMounted(() => {
 })
 </script>
 
+<script>
+export default {
+  head() {
+    return {
+      meta: [
+        {
+          name: 'b9c95a72416a096e5d809fd55035ba8b1b0c2fa0',
+          content: 'b9c95a72416a096e5d809fd55035ba8b1b0c2fa0',
+        },
+        {
+          name: 'referrer',
+          content: 'no-referrer-when-downgrade',
+        },
+      ],
+      script: [
+        {
+          'src': 'https://richinfo.co/richpartners/pops/js/richads-pu-ob.js',
+          'data-pubid': '987577',
+          'data-siteid': '372546',
+          'async': true,
+          'data-cfasync': 'false',
+        },
+      ],
+    }
+  },
+}
+</script>
+
 <template>
   <div>
     <Header />
