@@ -16,7 +16,6 @@ declare global {
 
   // Project helpers
   function getExpiration(event: any, expiration?: any): any
-  function date2unix(s: any): number
   function hubAnalytics(): { put: (obj: any) => Promise<any> }
   function shortTime(d: any): string
 }
@@ -31,9 +30,8 @@ declare module '~/composables' {
 }
 
 declare module '~/utils/time' {
-  export function date2unix(s: any): number
-  export function getValidatedDate(s: any): any
-  export default any
+  const _default: any
+  export default _default
 }
 
 declare module '@/utils/flag' {
