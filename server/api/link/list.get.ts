@@ -21,7 +21,7 @@ export default eventHandler(async (event) => {
       prefix: `link:`,
       limit,
       cursor: cursor || undefined,
-    }).catch((error) => {
+    }).catch((error: any) => {
       console.error('Error listing KV namespace:', error)
       throw createError({
         statusCode: 500,
@@ -46,7 +46,7 @@ export default eventHandler(async (event) => {
           return link
         }))
       }
-      catch (error) {
+      catch (error: any) {
         console.error('Error fetching link metadata:', error)
         throw createError({
           statusCode: 500,
@@ -58,9 +58,9 @@ export default eventHandler(async (event) => {
     delete list.keys
     return list
   }
-  catch (error) {
+  catch (error: any) {
     console.error('Link list endpoint error:', error)
-    if (error.statusCode && error.statusMessage) {
+    if (error && (error.statusCode || error.statusMessage)) {
       throw error // Re-throw h3 errors
     }
     throw createError({

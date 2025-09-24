@@ -34,6 +34,9 @@ declare function useState<T = any>(key: string, init?: T | (() => T)): { value: 
 declare function useAccessLog(event: H3Event): Promise<void>
 declare function useWAE(event: H3Event, sql: any): Promise<any>
 
+// Nuxt/$fetch helper (auto-imported at runtime) - declare for TS
+declare function $fetch<T = any>(input: string, init?: any): Promise<T>
+
 declare const SqlBricks: any
 declare const blobsMap: any
 declare const doublesMap: any

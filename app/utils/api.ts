@@ -7,13 +7,14 @@ export function useAPI(api: string, options?: object): Promise<unknown> {
       Authorization: `Bearer ${localStorage.getItem('SinkSiteToken') || ''}`,
     },
   })).catch((error) => {
-    if (error?.status === 401) {
+    const err = error as any
+    if (err?.status === 401) {
       localStorage.removeItem('SinkSiteToken')
       navigateTo('/dashboard/login')
     }
-    if (error?.data?.statusMessage) {
-      toast(error?.data?.statusMessage)
+    if (err?.data?.statusMessage) {
+      toast(err?.data?.statusMessage)
     }
-    return Promise.reject(error)
+    return Promise.reject(err)
   })
 }

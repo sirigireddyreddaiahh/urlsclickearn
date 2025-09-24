@@ -85,7 +85,7 @@ export function useAuth() {
     clearError()
 
     try {
-      const response = (await $fetch<ApiResponse>('/api/auth/register', {
+      const response = (await $fetch<ApiResponse>('/api/auth/signup', {
         method: 'POST',
         body: { email, password },
       }))
@@ -134,7 +134,7 @@ export function useAuth() {
       const response = (await $fetch<ApiResponse>('/api/auth/user'))
       user.value = response.user
     }
-    catch (err) {
+    catch {
       user.value = null
     }
     finally {
