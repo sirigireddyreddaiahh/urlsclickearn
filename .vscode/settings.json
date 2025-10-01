@@ -1,29 +1,36 @@
 {
-  // Disable the default formatter, use eslint instead
-  "prettier.enable": false,
-  "editor.formatOnSave": false,
-
-  // Auto fix
+  "prettier.enable": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
-
-  // Silent the stylistic rules in you IDE, but still auto fix them
-  "eslint.rules.customizations": [
-    { "rule": "style/*", "severity": "off", "fixable": true },
-    { "rule": "format/*", "severity": "off", "fixable": true },
-    { "rule": "*-indent", "severity": "off", "fixable": true },
-    { "rule": "*-spacing", "severity": "off", "fixable": true },
-    { "rule": "*-spaces", "severity": "off", "fixable": true },
-    { "rule": "*-order", "severity": "off", "fixable": true },
-    { "rule": "*-dangle", "severity": "off", "fixable": true },
-    { "rule": "*-newline", "severity": "off", "fixable": true },
-    { "rule": "*quotes", "severity": "off", "fixable": true },
-    { "rule": "*semi", "severity": "off", "fixable": true }
+  "vue.format.enable": false,
+  "vetur.format.enable": false,
+  // Ensure Prettier extension uses workspace Prettier and finds plugins
+  "prettier.prettierPath": "node_modules/.bin/prettier",
+  "prettier.pluginSearchDirs": [
+    "."
   ],
-
-  // Enable eslint for all supported languages
+  "prettier.enableDebugLogs": true,
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -46,5 +53,59 @@
     "scss",
     "pcss",
     "postcss"
-  ]
+  ],
+  "eslint.rules.customizations": [
+    {
+      "rule": "style/*",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "format/*",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-indent",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-spacing",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-spaces",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-order",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-dangle",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-newline",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*quotes",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*semi",
+      "severity": "off",
+      "fixable": true
+    }
+  ],
+  // Disable inline suggestions (Copilot inline) if they cause noise
+  "editor.inlineSuggest.enabled": true
 }

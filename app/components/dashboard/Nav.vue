@@ -1,5 +1,5 @@
-<script setup>
-const route = useRoute()
+﻿<script setup>
+const route = useRoute();
 </script>
 
 <template>
@@ -10,9 +10,7 @@ const route = useRoute()
       @update:model-value="navigateTo"
     >
       <TabsList>
-        <TabsTrigger
-          value="/dashboard/links"
-        >
+        <TabsTrigger value="/dashboard/links">
           {{ $t('nav.links') }}
         </TabsTrigger>
         <TabsTrigger value="/dashboard/analysis">

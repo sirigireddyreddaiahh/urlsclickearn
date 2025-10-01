@@ -1,4 +1,4 @@
-export default defineAppConfig({
+﻿export default defineAppConfig({
   title: 'Urlsclickearn',
   email: 'urlsclickearn.xyz@miantiao.me',
   github: 'https://github.com/ccbikai/urlsclickearn',
@@ -14,3 +14,4 @@ export default defineAppConfig({
     'dashboard',
   ],
 })
+

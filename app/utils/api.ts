@@ -1,4 +1,4 @@
-import { defu } from 'defu'
+﻿import { defu } from 'defu'
 import { toast } from 'vue-sonner'
 
 export function useAPI(api: string, options?: object): Promise<unknown> {
@@ -10,7 +10,7 @@ export function useAPI(api: string, options?: object): Promise<unknown> {
     const err = error as any
     if (err?.status === 401) {
       localStorage.removeItem('SinkSiteToken')
-      navigateTo('/dashboard/login')
+      navigateTo('/dashboard/auth/login')
     }
     if (err?.data?.statusMessage) {
       toast(err?.data?.statusMessage)
@@ -18,3 +18,4 @@ export function useAPI(api: string, options?: object): Promise<unknown> {
     return Promise.reject(err)
   })
 }
+

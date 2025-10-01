@@ -1,41 +1,44 @@
-<script lang="ts" setup>
-import { computed, onMounted, ref, useSlots } from 'vue'
-import { cn } from '@/utils'
+﻿<script lang="ts" setup>
+import { computed, onMounted, ref, useSlots } from 'vue';
+import { cn } from '@/utils';
 
-const props = withDefaults(defineProps<{
-  class?: string
-  delay?: number
-}>(), {
-  delay: 1000,
-})
+const props = withDefaults(
+  defineProps<{
+    class?: string;
+    delay?: number;
+  }>(),
+  {
+    delay: 1000,
+  }
+);
 
-const emit = defineEmits(['update:items'])
+const emit = defineEmits(['update:items']);
 
-const slots = useSlots()
-const index = ref(0)
-const slotsArray = ref<any>([])
-const maxShowItems = 100
+const slots = useSlots();
+const index = ref(0);
+const slotsArray = ref<any>([]);
+const maxShowItems = 100;
 
 const itemsToShow = computed(() => {
-  const start = index.value - maxShowItems < 0 ? 0 : index.value - maxShowItems
-  return slotsArray.value.slice(start, index.value)
-})
+  const start = index.value - maxShowItems < 0 ? 0 : index.value - maxShowItems;
+  return slotsArray.value.slice(start, index.value);
+});
 
 watch([itemsToShow], () => {
-  emit('update:items', itemsToShow.value.at(-1), props)
-})
+  emit('update:items', itemsToShow.value.at(-1), props);
+});
 
 async function loadComponents() {
-  slotsArray.value = slots.default ? slots.default()?.[0]?.children : []
+  slotsArray.value = slots.default ? slots.default()?.[0]?.children : [];
 
   while (index.value < slotsArray.value.length) {
-    index.value++
-    await delay(props.delay)
+    index.value++;
+    await delay(props.delay);
   }
 }
 
 async function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function getInitial(idx: number) {
@@ -44,7 +47,7 @@ function getInitial(idx: number) {
         scale: 0,
         opacity: 0,
       }
-    : undefined
+    : undefined;
 }
 function getEnter(idx: number) {
   return idx === index.value - 1
@@ -58,7 +61,7 @@ function getEnter(idx: number) {
           damping: 40,
         },
       }
-    : undefined
+    : undefined;
 }
 
 function getLeave() {
@@ -71,20 +74,27 @@ function getLeave() {
       stiffness: 350,
       damping: 40,
     },
-  }
-};
+  };
+}
 
-onMounted(() => loadComponents())
+onMounted(() => loadComponents());
 </script>
 
 <template>
   <div :class="cn('overflow-auto', $props.class)">
-    <transition-group name="list" tag="div" class="flex flex-col-reverse items-center p-2" move-class="move">
+    <transition-group
+      name="list"
+      tag="div"
+      class="flex flex-col-reverse items-center p-2"
+      move-class="move"
+    >
       <div
         v-for="(item, idx) in itemsToShow"
         :key="item.props.key"
         v-motion
-        :initial="getInitial(idx)" :enter="getEnter(idx)" :leave="getLeave()"
+        :initial="getInitial(idx)"
+        :enter="getEnter(idx)"
+        :leave="getLeave()"
         :class="cn('mx-auto w-full')"
       >
         <component :is="item" />

@@ -1,5 +1,5 @@
-<script setup>
-const { t } = useI18n()
+﻿<script setup>
+const { t } = useI18n();
 
 const tabs = {
   location: ['country', 'region', 'city'],
@@ -7,15 +7,15 @@ const tabs = {
   time: ['language', 'timezone'],
   device: ['device', 'deviceType'],
   browser: ['os', 'browser', 'browserType'],
-}
+};
 
 const translatedTabs = computed(() => ({
-  location: tabs.location.map(tab => t(`dashboard.metrics.${tab}`)),
-  referer: tabs.referer.map(tab => t(`dashboard.metrics.${tab}`)),
-  time: tabs.time.map(tab => t(`dashboard.metrics.${tab}`)),
-  device: tabs.device.map(tab => t(`dashboard.metrics.${tab}`)),
-  browser: tabs.browser.map(tab => t(`dashboard.metrics.${tab}`)),
-}))
+  location: tabs.location.map((tab) => t(`dashboard.metrics.${tab}`)),
+  referer: tabs.referer.map((tab) => t(`dashboard.metrics.${tab}`)),
+  time: tabs.time.map((tab) => t(`dashboard.metrics.${tab}`)),
+  device: tabs.device.map((tab) => t(`dashboard.metrics.${tab}`)),
+  browser: tabs.browser.map((tab) => t(`dashboard.metrics.${tab}`)),
+}));
 </script>
 
 <template>

@@ -1,15 +1,19 @@
-<script setup lang="ts">
-import AutoFormLabel from './AutoFormLabel.vue'
-import { beautifyObjectName } from './utils'
-import type { FieldProps } from './interface'
-import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+﻿<script setup lang="ts">
+import AutoFormLabel from './AutoFormLabel.vue';
+import { beautifyObjectName } from './utils';
+import type { FieldProps } from './interface';
+import FormControl from '@/components/ui/form/FormControl.vue';
+import FormDescription from '@/components/ui/form/FormDescription.vue';
+import FormField from '@/components/ui/form/FormField.vue';
+import FormItem from '@/components/ui/form/FormItem.vue';
+import FormMessage from '@/components/ui/form/FormMessage.vue';
+import Input from '@/components/ui/input/Input.vue';
 
 defineOptions({
   inheritAttrs: false,
-})
+});
 
-defineProps<FieldProps>()
+defineProps<FieldProps>();
 </script>
 
 <template>

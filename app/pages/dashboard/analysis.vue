@@ -1,5 +1,5 @@
-<script setup>
-provide('id', ref())
+﻿<script setup>
+provide('id', ref());
 </script>
 
 <template>

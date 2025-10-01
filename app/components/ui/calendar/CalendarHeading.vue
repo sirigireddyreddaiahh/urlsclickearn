@@ -1,27 +1,31 @@
-<script lang="ts" setup>
-import { type HTMLAttributes, computed } from 'vue'
-import { CalendarHeading, type CalendarHeadingProps, useForwardProps } from 'radix-vue'
-import { cn } from '@/utils'
+﻿<script lang="ts" setup>
+import { type HTMLAttributes, computed } from 'vue';
+import * as Radix from 'radix-vue';
+import { useForwardProps } from 'radix-vue';
+import { cn } from '@/utils';
 
-const props = defineProps<CalendarHeadingProps & { class?: HTMLAttributes['class'] }>()
+const props = defineProps<Record<string, any> & { class?: HTMLAttributes['class'] }>();
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+  const { class: _, ...delegated } = props;
 
-  return delegated
-})
+  return delegated;
+});
 
-const forwardedProps = useForwardProps(delegatedProps)
+const forwardedProps = useForwardProps(delegatedProps);
+
+const RadixCalendarHeading = (Radix as any).CalendarHeading ?? undefined;
 </script>
 
 <template>
-  <CalendarHeading
+  <component
+    :is="RadixCalendarHeading ?? 'div'"
     v-slot="{ headingValue }"
     :class="cn('text-sm font-medium', props.class)"
     v-bind="forwardedProps"
   >
-    <slot :heading-value>
+    <slot :heading-value="headingValue">
       {{ headingValue }}
     </slot>
-  </CalendarHeading>
+  </component>
 </template>

@@ -1,4 +1,4 @@
-import type { DateValue } from '@internationalized/date'
+﻿import type { DateValue } from '@internationalized/date'
 import { fromAbsolute, toCalendarDate } from '@internationalized/date'
 
 export function getTimeZone() {
@@ -40,3 +40,4 @@ export function date2unix(dateValue: DateValue | Date, type?: string) {
 export function unix2date(unix: number) {
   return toCalendarDate(fromAbsolute(unix * 1000, getTimeZone()))
 }
+

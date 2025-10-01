@@ -1,15 +1,15 @@
-<script setup lang='ts'>
-import { cn } from '@/utils'
-import { shortTime } from '@/utils/time'
+﻿<script setup lang="ts">
+import { cn } from '@/utils';
+import { shortTime } from '@/utils/time';
 
 const props = defineProps<{
-  name: string
-  class?: string
-  description: string
-  icon?: string
-  color?: string
-  time: number
-}>()
+  name: string;
+  class?: string;
+  description: string;
+  icon?: string;
+  color?: string;
+  time: number;
+}>();
 
 const className = cn(
   'relative mx-auto min-h-fit w-full cursor-pointer border rounded-2xl my-1',
@@ -18,8 +18,8 @@ const className = cn(
   // light styles
   'bg-white',
   // dark styles
-  'dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]',
-)
+  'dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]'
+);
 </script>
 
 <template>
@@ -32,9 +32,9 @@ const className = cn(
         <span class="text-lg">{{ props.icon }}</span>
       </div>
       <div class="flex flex-col overflow-hidden">
-        <div class="flex flex-row items-center whitespace-pre text-lg font-medium ">
+        <div class="flex flex-row items-center whitespace-pre text-lg font-medium">
           <span class="text-sm text-foreground sm:text-lg">{{ props.name }}</span>
-          <span class="mx-1">·</span>
+          <span class="mx-1">Â·</span>
           <span class="text-xs text-gray-500">{{ shortTime(props.time) }}</span>
         </div>
         <p class="text-sm font-normal">

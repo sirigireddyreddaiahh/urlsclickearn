@@ -1,13 +1,13 @@
-<script setup>
-import { NuxtLink } from '#components'
+﻿<script setup>
+import { NuxtLink } from '#components';
 
 defineProps({
   title: {
     type: String,
     required: true,
   },
-})
-const { title } = useAppConfig()
+});
+const { title } = useAppConfig();
 </script>
 
 <template>
@@ -20,10 +20,7 @@ const { title } = useAppConfig()
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <BreadcrumbLink
-          :as="NuxtLink"
-          to="/dashboard"
-        >
+        <BreadcrumbLink :as="NuxtLink" to="/dashboard/links">
           {{ $t('dashboard.title') }}
         </BreadcrumbLink>
       </BreadcrumbItem>

@@ -1,35 +1,32 @@
-<script setup>
-import { ref } from 'vue'
+﻿<script setup>
+import { ref } from 'vue';
 
 const form = ref({
   name: '',
   email: '',
   message: '',
-})
-const submitted = ref(false)
+});
+const submitted = ref(false);
 
 function submitForm() {
   // In production, send to backend or email service
-  submitted.value = true
+  submitted.value = true;
   setTimeout(() => {
-    submitted.value = false
-    form.value = { name: '', email: '', message: '' }
-  }, 3000)
+    submitted.value = false;
+    form.value = { name: '', email: '', message: '' };
+  }, 3000);
 }
 </script>
 
 <template>
   <div class="container mx-auto max-w-2xl py-12 px-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">
-      Contact Us
-    </h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">Contact Us</h1>
     <p class="mb-8 text-center text-gray-600 dark:text-gray-300">
-      Have a question, feedback, or need help? Reach out to us using the form below or email us directly.
+      Have a question, feedback, or need help? Reach out to us using the form below or email us
+      directly.
     </p>
     <div class="mb-8">
-      <h2 class="text-xl font-semibold mb-2">
-        My Email Addresses
-      </h2>
+      <h2 class="text-xl font-semibold mb-2">My Email Addresses</h2>
       <ul class="mb-4">
         <li class="flex items-center mb-1">
           <span class="font-mono text-blue-600 dark:text-blue-400">admin.rs@urlsclickearn.xyz</span>
@@ -53,22 +50,36 @@ function submitForm() {
     <form class="bg-white dark:bg-slate-800 shadow rounded-lg p-6" @submit.prevent="submitForm">
       <div class="mb-4">
         <label class="block mb-1 font-medium" for="name">Name</label>
-        <input id="name" v-model="form.name" type="text" class="input input-bordered w-full" required>
+        <input
+          id="name"
+          v-model="form.name"
+          type="text"
+          class="input input-bordered w-full"
+          required
+        />
       </div>
       <div class="mb-4">
         <label class="block mb-1 font-medium" for="email">Email</label>
-        <input id="email" v-model="form.email" type="email" class="input input-bordered w-full" required>
+        <input
+          id="email"
+          v-model="form.email"
+          type="email"
+          class="input input-bordered w-full"
+          required
+        />
       </div>
       <div class="mb-4">
         <label class="block mb-1 font-medium" for="message">Message</label>
-        <textarea id="message" v-model="form.message" rows="5" class="input input-bordered w-full" required />
+        <textarea
+          id="message"
+          v-model="form.message"
+          rows="5"
+          class="input input-bordered w-full"
+          required
+        />
       </div>
-      <button type="submit" class="btn btn-primary w-full">
-        Send Message
-      </button>
-      <p v-if="submitted" class="mt-4 text-green-600">
-        Thank you! Your message has been sent.
-      </p>
+      <button type="submit" class="btn btn-primary w-full">Send Message</button>
+      <p v-if="submitted" class="mt-4 text-green-600">Thank you! Your message has been sent.</p>
     </form>
   </div>
 </template>

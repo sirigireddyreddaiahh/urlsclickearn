@@ -1,20 +1,20 @@
-<script setup>
-import NumberFlow from '@number-flow/vue'
-import { Flame, MousePointerClick, Users } from 'lucide-vue-next'
+﻿<script setup>
+import NumberFlow from '@number-flow/vue';
+import { Flame, MousePointerClick, Users } from 'lucide-vue-next';
 
 const defaultData = Object.freeze({
   visits: 0,
   visitors: 0,
   referers: 0,
-})
+});
 
-const counters = ref(defaultData)
+const counters = ref(defaultData);
 
-const id = inject('id')
-const time = inject('time')
-const filters = inject('filters')
+const id = inject('id');
+const time = inject('time');
+const filters = inject('filters');
 async function getLinkCounters() {
-  counters.value = defaultData
+  counters.value = defaultData;
   const { data } = await useAPI('/api/stats/counters', {
     query: {
       id: id.value,
@@ -22,17 +22,17 @@ async function getLinkCounters() {
       endAt: time.value.endAt,
       ...filters.value,
     },
-  })
-  counters.value = data?.[0]
+  });
+  counters.value = data?.[0];
 }
 
 watch([time, filters], getLinkCounters, {
   deep: true,
-})
+});
 
 onMounted(async () => {
-  getLinkCounters()
-})
+  getLinkCounters();
+});
 </script>
 
 <template>
@@ -45,7 +45,11 @@ onMounted(async () => {
         <MousePointerClick class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visits }" :value="counters.visits" />
+        <NumberFlow
+          class="text-2xl font-bold"
+          :class="{ 'blur-md opacity-60': !counters.visits }"
+          :value="counters.visits"
+        />
       </CardContent>
     </Card>
     <Card>
@@ -56,7 +60,11 @@ onMounted(async () => {
         <Users class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visitors }" :value="counters.visitors" />
+        <NumberFlow
+          class="text-2xl font-bold"
+          :class="{ 'blur-md opacity-60': !counters.visitors }"
+          :value="counters.visitors"
+        />
       </CardContent>
     </Card>
     <Card>
@@ -67,7 +75,11 @@ onMounted(async () => {
         <Flame class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.referers }" :value="counters.referers" />
+        <NumberFlow
+          class="text-2xl font-bold"
+          :class="{ 'blur-md opacity-60': !counters.referers }"
+          :value="counters.referers"
+        />
       </CardContent>
     </Card>
   </div>

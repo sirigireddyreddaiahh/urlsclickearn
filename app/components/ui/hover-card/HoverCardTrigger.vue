@@ -1,7 +1,7 @@
-<script setup lang="ts">
-import { HoverCardTrigger, type HoverCardTriggerProps } from 'radix-vue'
+﻿<script setup lang="ts">
+import { HoverCardTrigger, type HoverCardTriggerProps } from 'radix-vue';
 
-const props = defineProps<HoverCardTriggerProps>()
+const props = defineProps<HoverCardTriggerProps>();
 </script>
 
 <template>

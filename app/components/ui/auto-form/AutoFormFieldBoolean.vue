@@ -1,15 +1,20 @@
-<script setup lang="ts">
-import { computed } from 'vue'
-import { beautifyObjectName } from './utils'
-import type { FieldProps } from './interface'
-import AutoFormLabel from './AutoFormLabel.vue'
-import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { Switch } from '@/components/ui/switch'
-import { Checkbox } from '@/components/ui/checkbox'
+﻿<script setup lang="ts">
+import { computed } from 'vue';
+import { beautifyObjectName } from './utils';
+import type { FieldProps } from './interface';
+import * as AutoFormLabelNS from './AutoFormLabel.vue';
+const AutoFormLabel = (AutoFormLabelNS as any).default ?? AutoFormLabelNS;
+import FormControl from '@/components/ui/form/FormControl.vue';
+import FormDescription from '@/components/ui/form/FormDescription.vue';
+import FormField from '@/components/ui/form/FormField.vue';
+import FormItem from '@/components/ui/form/FormItem.vue';
+import FormMessage from '@/components/ui/form/FormMessage.vue';
+import Switch from '@/components/ui/switch/Switch.vue';
+import Checkbox from '@/components/ui/checkbox/Checkbox.vue';
 
-const props = defineProps<FieldProps>()
+const props = defineProps<FieldProps>();
 
-const booleanComponent = computed(() => props.config?.component === 'switch' ? Switch : Checkbox)
+const booleanComponent = computed(() => (props.config?.component === 'switch' ? Switch : Checkbox));
 </script>
 
 <template>
@@ -18,13 +23,9 @@ const booleanComponent = computed(() => props.config?.component === 'switch' ? S
       <div class="space-y-0 mb-3 flex items-center gap-3">
         <FormControl>
           <slot v-bind="slotProps">
-            <component
-              :is="booleanComponent"
-              v-bind="{ ...slotProps.componentField }"
-              :disabled="disabled"
+            <component :is="booleanComponent" v-bind="{ ...slotProps.componentField }" :disabled="disabled"
               :checked="slotProps.componentField.modelValue"
-              @update:checked="slotProps.componentField['onUpdate:modelValue']"
-            />
+              @update:checked="slotProps.componentField['onUpdate:modelValue']" />
           </slot>
         </FormControl>
         <AutoFormLabel v-if="!config?.hideLabel" :required="required">

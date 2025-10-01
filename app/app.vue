@@ -1,5 +1,6 @@
-<script setup>
-const { title, description, image } = useAppConfig()
+﻿<script setup>
+const { title, description, image } = useAppConfig();
+
 useSeoMeta({
   title: `${title} - ${description}`,
   description,
@@ -11,7 +12,7 @@ useSeoMeta({
   twitterDescription: description,
   twitterImage: image,
   twitterCard: 'summary_large_image',
-})
+});
 
 useHead({
   htmlAttrs: {
@@ -20,24 +21,18 @@ useHead({
   meta: [
     {
       name: 'viewport',
-      content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0',
-      tagPosition: 'head',
+      content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
     },
   ],
-  link: [
-    {
-      rel: 'icon',
-      type: 'image/png',
-      href: '/icon-192.png',
-    },
-  ],
-})
+});
 </script>
 
 <template>
   <NuxtLayout>
-    <NuxtLoadingIndicator color="#000" />
     <NuxtPage />
-    <Toaster />
   </NuxtLayout>
 </template>
+
+<style>
+/* Add global styles if needed */
+</style>

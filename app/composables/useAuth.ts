@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+﻿import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 // Define types for API responses and errors
@@ -49,7 +49,7 @@ export function useAuth() {
       }))
 
       user.value = response.user
-      router.push('/dashboard')
+      router.push('/dashboard/links')
     }
     catch (err) {
       const errorData = err as ApiError
@@ -91,7 +91,7 @@ export function useAuth() {
       }))
 
       user.value = response.user
-      router.push('/dashboard')
+      router.push('/dashboard/links')
     }
     catch (err) {
       const errorData = err as ApiError
@@ -157,3 +157,4 @@ export function useAuth() {
     clearError,
   }
 }
+

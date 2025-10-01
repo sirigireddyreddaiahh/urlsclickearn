@@ -1,12 +1,5 @@
-<script setup>
-import {
-  Globe,
-  Laptop,
-  MonitorCheck,
-  Smartphone,
-  Tablet,
-  Terminal,
-} from 'lucide-vue-next'
+﻿<script setup>
+import { Globe, Laptop, MonitorCheck, Smartphone, Tablet, Terminal } from 'lucide-vue-next';
 
 // https://vue3-simple-icons.wyatt-herkamp.dev/
 import {
@@ -35,7 +28,7 @@ import {
   // WindowsIcon,
   XIcon,
   YandexCloudIcon,
-} from 'vue3-simple-icons'
+} from 'vue3-simple-icons';
 
 defineProps({
   name: {
@@ -46,53 +39,53 @@ defineProps({
     type: String,
     default: 'browser',
   },
-})
+});
 
 const iconMaps = {
-  'android': AndroidIcon,
+  android: AndroidIcon,
   'android browser': AndroidIcon,
-  'browser': Globe,
-  'chrome': GoogleChromeIcon,
+  browser: Globe,
+  chrome: GoogleChromeIcon,
   'chrome headless': GoogleChromeIcon,
   'chrome webview': GoogleChromeIcon,
-  'chromium': GoogleChromeIcon,
-  'curl': Terminal,
-  'debian': DebianIcon,
-  'desktop': MonitorCheck,
-  'facebook': FacebookIcon,
-  'facebookexternalhit': FacebookIcon,
-  'firefox': FirefoxBrowserIcon,
-  'googlebot': GoogleIcon,
+  chromium: GoogleChromeIcon,
+  curl: Terminal,
+  debian: DebianIcon,
+  desktop: MonitorCheck,
+  facebook: FacebookIcon,
+  facebookexternalhit: FacebookIcon,
+  firefox: FirefoxBrowserIcon,
+  googlebot: GoogleIcon,
   'googlebot-image': GoogleIcon,
-  'gnu': GnuIcon,
-  'harmonyos': HuaweiIcon,
+  gnu: GnuIcon,
+  harmonyos: HuaweiIcon,
   'huawei browser': HuaweiIcon,
   // 'ie': InternetExplorerIcon,
-  'ios': IOsIcon,
-  'ipad': AppleIcon,
-  'iphone': AppleIcon,
-  'ipod': AppleIcon,
-  'laptop': Laptop,
-  'linux': LinuxIcon,
-  'macintosh': AppleIcon,
-  'macos': MacOsIcon,
+  ios: IOsIcon,
+  ipad: AppleIcon,
+  iphone: AppleIcon,
+  ipod: AppleIcon,
+  laptop: Laptop,
+  linux: LinuxIcon,
+  macintosh: AppleIcon,
+  macos: MacOsIcon,
   'miui browser': XiaomiIcon,
-  'mobile': Smartphone,
+  mobile: Smartphone,
   'mobile chrome': GoogleChromeIcon,
   'mobile firefox': FirefoxBrowserIcon,
   'mobile safari': SafariIcon,
-  'opera': OperaIcon,
-  'os': MonitorCheck,
-  'safari': SafariIcon,
+  opera: OperaIcon,
+  os: MonitorCheck,
+  safari: SafariIcon,
   'samsung internet': SamsungIcon,
-  'tablet': Tablet,
-  'twitterbot': XIcon,
-  'ubuntu': UbuntuIcon,
+  tablet: Tablet,
+  twitterbot: XIcon,
+  ubuntu: UbuntuIcon,
   'vivo browser': VivoIcon,
-  'wechat': WeChatIcon,
-  'wearable': WearOsIcon,
-  'yandex': YandexCloudIcon,
-}
+  wechat: WeChatIcon,
+  wearable: WearOsIcon,
+  yandex: YandexCloudIcon,
+};
 </script>
 
 <template>

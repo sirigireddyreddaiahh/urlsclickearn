@@ -21,17 +21,18 @@ declare global {
 }
 
 // Module shims for unresolved imports
+// Keep these minimal. Avoid using `export default` inside `declare module` to prevent
+// "Exports and export assignments are not permitted in module augmentations" errors.
 declare module '~/composables' {
   export const FORM_ITEM_INJECTION_KEY: any
   export const useAPI: any
   export function useAuth(): any
   export const FORM_ITEM_INJECTION_KEY_SILENT: any
-  export default any
+  const __shim_default__: any
 }
 
 declare module '~/utils/time' {
   const _default: any
-  export default _default
 }
 
 declare module '@/utils/flag' {
@@ -59,14 +60,11 @@ declare global {
 
 declare module 'ua-parser-js/extensions' {
   const whatever: any
-  export default whatever
 }
 
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
-
-  const component: DefineComponent<object, object, any>
-  export default component
-}
+// NOTE: '*.vue' module declaration exists in other shim files; avoid duplicating it here to
+// prevent duplicate identifier errors. If you need to adjust the Vue SFC typings, update
+// the dedicated shims file instead.
 
 export {}
+

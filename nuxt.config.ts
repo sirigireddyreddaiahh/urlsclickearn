@@ -12,10 +12,10 @@ export default defineNuxtConfig({
   ],
   components: [
     // Application components (higher priority so app components override library ones)
-    { path: '~/app/components', pathPrefix: true, priority: 20, ignore: ['**/index.ts'] },
-    { path: '~/app/components/ui', pathPrefix: true, priority: 20 },
+  { path: '~/app/components', pathPrefix: true, priority: 20, extensions: ['vue'], ignore: ['**/index.ts'] },
+  { path: '~/app/components/ui', pathPrefix: true, priority: 20, extensions: ['vue'], ignore: ['**/index.ts'] },
     // Legacy top-level components folder
-    { path: '~/components', pathPrefix: true, ignore: ['**/index.ts'] },
+  { path: '~/components', pathPrefix: true, extensions: ['vue'], ignore: ['**/index.ts'] },
     // Specific drawer override (lower priority)
     { path: '~/components/ui/drawer', priority: 10 },
   ],

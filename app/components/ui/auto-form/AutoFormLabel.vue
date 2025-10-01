@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import { FormLabel } from '@/components/ui/form'
+﻿<script setup lang="ts">
+import FormLabel from '@/components/ui/form/FormLabel.vue';
 
 defineProps<{
-  required?: boolean
-}>()
+  required?: boolean;
+}>();
 </script>
 
 <template>

@@ -1,14 +1,14 @@
-<script setup>
-import { ArrowUpDown } from 'lucide-vue-next'
+﻿<script setup>
+import { ArrowUpDown } from 'lucide-vue-next';
 
 defineProps({
   sortBy: {
     type: String,
     default: 'az',
   },
-})
+});
 
-const emit = defineEmits(['update:sortBy'])
+const emit = defineEmits(['update:sortBy']);
 </script>
 
 <template>

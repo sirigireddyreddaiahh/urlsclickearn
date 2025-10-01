@@ -1,5 +1,5 @@
-<script setup>
-import errorImage from './assets/images/404.svg?raw'
+﻿<script setup>
+import errorImage from './assets/images/404.svg?raw';
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-import type { Component, InputHTMLAttributes } from 'vue'
+﻿import type { Component, InputHTMLAttributes } from 'vue'
 import type { ZodAny, z } from 'zod'
 import type { INPUT_COMPONENTS } from './constant'
 
@@ -79,3 +79,4 @@ export type OptionsDependency<
 export type Dependency<SchemaType extends z.infer<z.ZodObject<any, any>>> =
   | ValueDependency<SchemaType>
   | OptionsDependency<SchemaType>
+

@@ -1,4 +1,4 @@
-import type { Spacing } from '@unovis/ts'
+﻿import type { Spacing } from '@unovis/ts'
 
 type KeyOf<T extends Record<string, any>> = Extract<keyof T, string>
 
@@ -62,3 +62,9 @@ export interface BaseChartProps<T extends Record<string, any>> {
    */
   showGridLine?: boolean
 }
+
+export function defaultColors(n: number) {
+  const palette = ['#3b82f6', '#06b6d4', '#f97316', '#ef4444', '#a78bfa', '#f59e0b']
+  return Array.from({ length: n }).map((_, i) => palette[i % palette.length])
+}
+

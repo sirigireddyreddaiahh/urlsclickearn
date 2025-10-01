@@ -1,6 +1,6 @@
-<script setup>
-import { AreaChart } from '@/components/ui/chart-area'
-import { BarChart } from '@/components/ui/chart-bar'
+﻿<script setup>
+import AreaChart from '@/components/ui/chart-area/AreaChart.vue';
+import BarChart from '@/components/ui/chart-bar/BarChart.vue';
 
 const props = defineProps({
   mode: {
@@ -11,29 +11,29 @@ const props = defineProps({
     type: String,
     default: 'area',
   },
-})
+});
 
-const views = ref([])
-const chart = computed(() => (props.chartType === 'area' && views.value.length > 1) ? AreaChart : BarChart)
+const views = ref([]);
+const chart = computed(() =>
+  props.chartType === 'area' && views.value.length > 1 ? AreaChart : BarChart
+);
 
-const id = inject('id')
-const time = inject('time')
-const filters = inject('filters')
+const id = inject('id');
+const time = inject('time');
+const filters = inject('filters');
 
-const OneHour = 60 * 60 // 1 hour in seconds
-const OneDay = 24 * 60 * 60 // 1 day in seconds
+const OneHour = 60 * 60; // 1 hour in seconds
+const OneDay = 24 * 60 * 60; // 1 day in seconds
 function getUnit(startAt, endAt) {
-  if (startAt && endAt && endAt - startAt <= OneHour)
-    return 'minute'
+  if (startAt && endAt && endAt - startAt <= OneHour) return 'minute';
 
-  if (startAt && endAt && endAt - startAt <= OneDay)
-    return 'hour'
+  if (startAt && endAt && endAt - startAt <= OneDay) return 'hour';
 
-  return 'day'
+  return 'day';
 }
 
 async function getLinkViews() {
-  views.value = []
+  views.value = [];
   const { data } = await useAPI('/api/stats/views', {
     query: {
       id: id.value,
@@ -43,48 +43,38 @@ async function getLinkViews() {
       endAt: time.value.endAt,
       ...filters.value,
     },
-  })
+  });
   views.value = (data || []).map((item) => {
-    item.visitors = +item.visitors
-    item.visits = +item.visits
-    return item
-  })
+    item.visitors = +item.visitors;
+    item.visits = +item.visits;
+    return item;
+  });
 }
 
 watch([time, filters], getLinkViews, {
   deep: true,
-})
+});
 
 onMounted(async () => {
-  getLinkViews()
-})
+  getLinkViews();
+});
 
 function formatTime(tick) {
   if (Number.isInteger(tick) && views.value[tick]) {
     if (getUnit(time.value.startAt, time.value.endAt) === 'hour')
-      return views.value[tick].time.split(' ')[1] || ''
+      return views.value[tick].time.split(' ')[1] || '';
 
-    return views.value[tick].time
+    return views.value[tick].time;
   }
-  return ''
+  return '';
 }
 </script>
 
 <template>
   <Card class="px-0 py-6 md:px-6">
-    <CardTitle v-if="mode === 'full'" class="px-6 md:px-0">
-      Views
-    </CardTitle>
-    <component
-      :is="chart"
-      class="w-full h-full"
-      index="time"
-      :data="views"
-      :categories="mode === 'full' ? ['visits', 'visitors'] : ['visits']"
-      :x-formatter="formatTime"
-      :y-formatter="formatNumber"
-      :show-grid-line="mode === 'full'"
-      :show-legend="mode === 'full'"
-    />
+    <CardTitle v-if="mode === 'full'" class="px-6 md:px-0"> Views </CardTitle>
+    <component :is="chart" class="w-full h-full" index="time" :data="views"
+      :categories="mode === 'full' ? ['visits', 'visitors'] : ['visits']" :x-formatter="formatTime"
+      :y-formatter="formatNumber" :show-grid-line="mode === 'full'" :show-legend="mode === 'full'" />
   </Card>
 </template>

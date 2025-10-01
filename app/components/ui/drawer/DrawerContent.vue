@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+﻿<script lang="ts" setup>
 import type { DialogContentEmits, DialogContentProps } from 'radix-vue';
 import type { HtmlHTMLAttributes } from 'vue';
 import { cn } from '@/utils';
@@ -15,13 +15,15 @@ const forwarded = useForwardPropsEmits(props, emits);
 
 <template>
   <DrawerPortal>
-  <DrawerOverlay.default />
+    <DrawerOverlay.default />
     <DrawerContent
       v-bind="forwarded"
-      :class="cn(
-        'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
-        props.class
-      )"
+      :class="
+        cn(
+          'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
+          props.class
+        )
+      "
     >
       <div class="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
       <slot />

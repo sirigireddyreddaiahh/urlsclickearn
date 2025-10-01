@@ -1,7 +1,7 @@
-<script lang="ts" setup>
-import { DrawerRoot } from 'vaul-vue'
+﻿<script lang="ts" setup>
+import { DrawerRoot } from 'vaul-vue';
 
-const props = defineProps<{ shouldScaleBackground?: boolean }>()
+const props = defineProps<{ shouldScaleBackground?: boolean }>();
 </script>
 nd?: boolean }>(), {
 <template>

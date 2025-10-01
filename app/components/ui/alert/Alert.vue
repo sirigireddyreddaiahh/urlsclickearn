@@ -1,12 +1,12 @@
-<script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
-import { type AlertVariants, alertVariants } from '.'
-import { cn } from '@/utils'
+﻿<script setup lang="ts">
+import type { HTMLAttributes } from 'vue';
+import { type AlertVariants, alertVariants } from './styles';
+import { cn } from '@/utils';
 
 const props = defineProps<{
-  class?: HTMLAttributes['class']
-  variant?: AlertVariants['variant']
-}>()
+  class?: HTMLAttributes['class'];
+  variant?: AlertVariants['variant'];
+}>();
 </script>
 
 <template>
