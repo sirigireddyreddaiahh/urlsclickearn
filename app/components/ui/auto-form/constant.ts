@@ -1,4 +1,4 @@
-﻿import AutoFormFieldArray from './AutoFormFieldArray.vue'
+import AutoFormFieldArray from './AutoFormFieldArray.vue'
 import AutoFormFieldBoolean from './AutoFormFieldBoolean.vue'
 import AutoFormFieldDate from './AutoFormFieldDate.vue'
 import AutoFormFieldEnum from './AutoFormFieldEnum.vue'
@@ -37,4 +37,3 @@ export const DEFAULT_ZOD_HANDLERS: {
   ZodArray: 'array',
   ZodObject: 'object',
 }
-

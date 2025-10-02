@@ -1,7 +1,7 @@
-﻿<script setup lang="ts">
-import { AspectRatio, type AspectRatioProps } from 'radix-vue';
+<script setup lang="ts">
+import { AspectRatio, type AspectRatioProps } from 'radix-vue'
 
-const props = defineProps<AspectRatioProps>();
+const props = defineProps<AspectRatioProps>()
 </script>
 
 <template>

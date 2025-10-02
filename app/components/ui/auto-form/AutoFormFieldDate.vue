@@ -1,28 +1,21 @@
-﻿<script setup lang="ts">
-import { DateFormatter, getLocalTimeZone } from '@internationalized/date';
-import { CalendarIcon } from 'lucide-vue-next';
-import { beautifyObjectName } from './utils';
-import * as AutoFormLabelNS from './AutoFormLabel.vue';
-const AutoFormLabel = (AutoFormLabelNS as any).default ?? AutoFormLabelNS;
-import type { FieldProps } from './interface';
-import FormControl from '@/components/ui/form/FormControl.vue';
-import FormDescription from '@/components/ui/form/FormDescription.vue';
-import FormField from '@/components/ui/form/FormField.vue';
-import FormItem from '@/components/ui/form/FormItem.vue';
-import FormMessage from '@/components/ui/form/FormMessage.vue';
+<script setup lang="ts">
+import { DateFormatter, getLocalTimeZone } from '@internationalized/date'
+import { CalendarIcon } from 'lucide-vue-next'
+import { beautifyObjectName } from './utils'
+import AutoFormLabel from './AutoFormLabel.vue'
+import type { FieldProps } from './interface'
+import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
-import Calendar from '@/components/ui/calendar/Calendar.vue';
-import Button from '@/components/ui/button/Button.vue';
-import Popover from '@/components/ui/popover/Popover.vue';
-import PopoverContent from '@/components/ui/popover/PopoverContent.vue';
-import PopoverTrigger from '@/components/ui/popover/PopoverTrigger.vue';
-import { cn } from '@/utils';
+import { Calendar } from '@/components/ui/calendar'
+import { Button } from '@/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { cn } from '@/utils'
 
-defineProps<FieldProps>();
+defineProps<FieldProps>()
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'long',
-});
+})
 </script>
 
 <template>
@@ -36,17 +29,15 @@ const df = new DateFormatter('en-US', {
           <div>
             <Popover>
               <PopoverTrigger as-child :disabled="disabled">
-                <Button variant="outline" :class="cn(
-                  'w-full justify-start text-left font-normal',
-                  !slotProps.componentField.modelValue && 'text-muted-foreground'
-                )
-                  ">
+                <Button
+                  variant="outline"
+                  :class="cn(
+                    'w-full justify-start text-left font-normal',
+                    !slotProps.componentField.modelValue && 'text-muted-foreground',
+                  )"
+                >
                   <CalendarIcon class="mr-2 h-4 w-4" :size="16" />
-                  {{
-                    slotProps.componentField.modelValue
-                      ? df.format(slotProps.componentField.modelValue.toDate(getLocalTimeZone()))
-                      : 'Pick a date'
-                  }}
+                  {{ slotProps.componentField.modelValue ? df.format(slotProps.componentField.modelValue.toDate(getLocalTimeZone())) : "Pick a date" }}
                 </Button>
               </PopoverTrigger>
               <PopoverContent class="w-auto p-0">

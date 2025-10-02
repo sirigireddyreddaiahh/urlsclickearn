@@ -1,4 +1,4 @@
-﻿import type { z } from 'zod'
+import type { z } from 'zod'
 
 // TODO: This should support recursive ZodEffects but TypeScript doesn't allow circular type definitions.
 export type ZodObjectOrWrapped =
@@ -169,4 +169,3 @@ export function getFromPath<TValue = unknown, TFallback = TValue>(
 
   return resolvedValue as TValue | undefined
 }
-

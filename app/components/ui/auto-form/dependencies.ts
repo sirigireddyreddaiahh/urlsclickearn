@@ -1,4 +1,4 @@
-﻿import type * as z from 'zod'
+import type * as z from 'zod'
 import type { Ref } from 'vue'
 import { computed, ref, watch } from 'vue'
 import { useFieldValue, useFormValues } from 'vee-validate'
@@ -90,4 +90,3 @@ export default function useDependencies(
     overrideOptions,
   }
 }
-

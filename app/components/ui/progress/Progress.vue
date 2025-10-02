@@ -1,33 +1,39 @@
-﻿<script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue';
-import { ProgressIndicator, ProgressRoot, type ProgressRootProps } from 'radix-vue';
-import { cn } from '@/utils';
+<script setup lang="ts">
+import { type HTMLAttributes, computed } from 'vue'
+import {
+  ProgressIndicator,
+  ProgressRoot,
+  type ProgressRootProps,
+} from 'radix-vue'
+import { cn } from '@/utils'
 
 const props = withDefaults(
-  defineProps<ProgressRootProps & { class?: HTMLAttributes['class']; color?: string }>(),
+  defineProps<ProgressRootProps & { class?: HTMLAttributes['class'], color?: string }>(),
   {
     modelValue: 0,
-  }
-);
+  },
+)
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props;
+  const { class: _, ...delegated } = props
 
-  return delegated;
-});
+  return delegated
+})
 </script>
 
 <template>
   <ProgressRoot
     v-bind="delegatedProps"
-    :class="cn('relative h-4 w-full overflow-hidden rounded-full bg-secondary', props.class)"
+    :class="
+      cn(
+        'relative h-4 w-full overflow-hidden rounded-full bg-secondary',
+        props.class,
+      )
+    "
   >
     <ProgressIndicator
       class="flex-1 w-full h-full transition-all bg-primary"
-      :style="[
-        `transform: translateX(-${100 - (props.modelValue ?? 0)}%);`,
-        `background-color: ${props.color}`,
-      ]"
+      :style="[`transform: translateX(-${100 - (props.modelValue ?? 0)}%);`, `background-color: ${props.color}`]"
     />
   </ProgressRoot>
 </template>

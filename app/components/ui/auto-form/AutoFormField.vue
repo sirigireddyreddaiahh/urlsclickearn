@@ -1,39 +1,40 @@
-﻿<script setup lang="ts">
-import type { ZodAny } from 'zod';
-import { computed } from 'vue';
-import type { Config, ConfigItem, Shape } from './interface';
-import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from './constant';
-import useDependencies from './dependencies';
+<script setup lang="ts">
+import type { ZodAny } from 'zod'
+import { computed } from 'vue'
+import type { Config, ConfigItem, Shape } from './interface'
+import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from './constant'
+import useDependencies from './dependencies'
 
 const props = defineProps<{
-  fieldName: string;
-  shape: Shape;
-  config?: ConfigItem | Config<ZodAny>;
-}>();
+  fieldName: string
+  shape: Shape
+  config?: ConfigItem | Config<ZodAny>
+}>()
 
 function isValidConfig(config: any): config is ConfigItem {
-  return !!config?.component;
+  return !!config?.component
 }
 
 const delegatedProps = computed(() => {
-  if (['ZodObject', 'ZodArray'].includes(props.shape?.type)) return { schema: props.shape?.schema };
-  return undefined;
-});
+  if (['ZodObject', 'ZodArray'].includes(props.shape?.type))
+    return { schema: props.shape?.schema }
+  return undefined
+})
 
 const componentToRender = computed(() => {
   // prefer explicit config.component
   if (isValidConfig(props.config)) {
     if (typeof props.config.component === 'string') {
-      return INPUT_COMPONENTS[props.config.component] || null;
+      return INPUT_COMPONENTS[props.config.component] || null
     }
-    return props.config.component;
+    return props.config.component
   }
 
-  const handler = DEFAULT_ZOD_HANDLERS[props.shape?.type];
-  return handler ? INPUT_COMPONENTS[handler] : null;
-});
+  const handler = DEFAULT_ZOD_HANDLERS[props.shape?.type]
+  return handler ? INPUT_COMPONENTS[handler] : null
+})
 
-const { isDisabled, isHidden, isRequired, overrideOptions } = useDependencies(props.fieldName);
+const { isDisabled, isHidden, isRequired, overrideOptions } = useDependencies(props.fieldName)
 </script>
 
 <template>

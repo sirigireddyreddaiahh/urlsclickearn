@@ -1,4 +1,4 @@
-﻿<script lang="ts" setup>
+<script lang="ts" setup>
 import type { DialogOverlayProps } from 'radix-vue';
 import type { HtmlHTMLAttributes } from 'vue';
 import { cn } from '@/utils';

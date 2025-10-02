@@ -1,16 +1,20 @@
-﻿<script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue';
-import { AccordionHeader, AccordionTrigger, type AccordionTriggerProps } from 'radix-vue';
-import { ChevronDown } from 'lucide-vue-next';
-import { cn } from '@/utils';
+<script setup lang="ts">
+import { type HTMLAttributes, computed } from 'vue'
+import {
+  AccordionHeader,
+  AccordionTrigger,
+  type AccordionTriggerProps,
+} from 'radix-vue'
+import { ChevronDown } from 'lucide-vue-next'
+import { cn } from '@/utils'
 
-const props = defineProps<AccordionTriggerProps & { class?: HTMLAttributes['class'] }>();
+const props = defineProps<AccordionTriggerProps & { class?: HTMLAttributes['class'] }>()
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props;
+  const { class: _, ...delegated } = props
 
-  return delegated;
-});
+  return delegated
+})
 </script>
 
 <template>
@@ -20,13 +24,15 @@ const delegatedProps = computed(() => {
       :class="
         cn(
           'flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
-          props.class
+          props.class,
         )
       "
     >
       <slot />
       <slot name="icon">
-        <ChevronDown class="h-4 w-4 shrink-0 transition-transform duration-200" />
+        <ChevronDown
+          class="h-4 w-4 shrink-0 transition-transform duration-200"
+        />
       </slot>
     </AccordionTrigger>
   </AccordionHeader>

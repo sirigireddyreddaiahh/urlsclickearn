@@ -1,6 +1,19 @@
 // File: nuxt.config.ts
 
 export default defineNuxtConfig({
+  // 👇 This makes Nuxt use the /app folder (so it finds your pages, layouts, etc.)
+  srcDir: 'app/',
+  
+  // Silence punycode deprecation warning
+  hooks: {
+    'webpack:config'(configs) {
+      configs.forEach((config) => {
+        config.ignoreWarnings = [
+          { module: /node_modules\/punycode/ }
+        ];
+      });
+    }
+  },
 
   modules: [
     '@nuxthub/core',
@@ -10,17 +23,26 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
   ],
+
+  nitro: {
+    routeRules: {
+      '/api/**': { cors: true, cache: { maxAge: 0 } }
+    }
+  },
+
   components: [
     // Application components (higher priority so app components override library ones)
-  { path: '~/app/components', pathPrefix: true, priority: 20, extensions: ['vue'], ignore: ['**/index.ts'] },
-  { path: '~/app/components/ui', pathPrefix: true, priority: 20, extensions: ['vue'], ignore: ['**/index.ts'] },
+    { path: '~/app/components', pathPrefix: true, priority: 20, extensions: ['vue'], ignore: ['**/index.ts'] },
+    { path: '~/app/components/ui', pathPrefix: true, priority: 20, extensions: ['vue'], ignore: ['**/index.ts'] },
     // Legacy top-level components folder
-  { path: '~/components', pathPrefix: true, extensions: ['vue'], ignore: ['**/index.ts'] },
+    { path: '~/components', pathPrefix: true, extensions: ['vue'], ignore: ['**/index.ts'] },
     // Specific drawer override (lower priority)
     { path: '~/components/ui/drawer', priority: 10 },
   ],
+
   devtools: { enabled: true },
   colorMode: { classSuffix: '' },
+
   runtimeConfig: {
     siteToken: 'Urlsclickearn',
     redirectStatusCode: '301',
@@ -42,8 +64,9 @@ export default defineNuxtConfig({
       googleClientId: process.env.GOOGLE_CLIENT_ID || '',
     },
   },
+
   routeRules: {
-    '/': { prerender: true },
+    '/': { prerender: false },
     '/dashboard/**': { prerender: true, ssr: false },
     '/dashboard': { redirect: '/dashboard/links' },
     '/login': { redirect: '/auth/login' },
@@ -52,12 +75,14 @@ export default defineNuxtConfig({
       { baseURL: '/', dir: 'public' },
     ],
   },
+
   nitro: {
     preset: 'cloudflare-pages',
     experimental: {
       openAPI: false,
     },
   },
+
   hub: {
     ai: true,
     analytics: true,
@@ -67,16 +92,15 @@ export default defineNuxtConfig({
     kv: true,
     workers: true,
   },
+
   vite: {
     build: {
       target: 'esnext',
     },
     ssr: {
-      // Force some packages to be not external, so they are bundled correctly
       noExternal: [
         'mime',
         'zod',
-        // add any other module you suspect might cause class extends errors
       ],
     },
     plugins: [
@@ -100,7 +124,6 @@ export default defineNuxtConfig({
       },
     ],
     vue: {
-      // Only process .vue files as Vue SFCs. Avoid processing .ts files (schemas, utils)
       include: [/\.vue$/],
       exclude: [
         /middleware\/.*\.ts$/,
@@ -108,7 +131,7 @@ export default defineNuxtConfig({
         /app\.config\.ts$/,
         /utils\/.*\.ts$/,
         /composables\/.*\.ts$/,
-        /components\/.*\.ts$/, // Exclude all .ts files in components
+        /components\/.*\.ts$/,
       ],
       script: {
         defineModel: true,
@@ -118,12 +141,14 @@ export default defineNuxtConfig({
       },
     },
   },
+
   eslint: {
     config: {
       stylistic: true,
       standalone: false,
     },
   },
+
   shadcn: {
     prefix: '',
     componentDir: './app/components/ui',

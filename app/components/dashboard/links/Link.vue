@@ -15,6 +15,9 @@ import { parseURL } from 'ufo';
 import { toast } from 'vue-sonner';
 import QRCode from './QRCode.vue';
 
+// Resolve public asset path so Vite can handle it during import-analysis
+const icon = new URL('/icon.png', import.meta.url).href;
+
 const props = defineProps({
   link: {
     type: Object,
@@ -59,7 +62,7 @@ function copyLink() {
         <Avatar>
           <AvatarImage :src="linkIcon" alt="@radix-vue" loading="lazy" />
           <AvatarFallback>
-            <img src="/icon.png" alt="Sink" loading="lazy" />
+            <img :src="icon" alt="Sink" loading="lazy" />
           </AvatarFallback>
         </Avatar>
 
@@ -107,8 +110,7 @@ function copyLink() {
           <PopoverContent class="w-auto p-0" :hide-when-detached="false">
             <DashboardLinksEditor :link="link" @update:link="updateLink">
               <div
-                class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
-              >
+                class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground">
                 <SquarePen class="w-5 h-5 mr-2" />
                 {{ $t('common.edit') }}
               </div>
@@ -118,8 +120,7 @@ function copyLink() {
 
             <DashboardLinksDelete :link="link" @update:link="updateLink">
               <div
-                class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
-              >
+                class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground">
                 <Eraser class="w-5 h-5 mr-2" /> {{ $t('common.delete') }}
               </div>
             </DashboardLinksDelete>
@@ -130,9 +131,9 @@ function copyLink() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger as-child>
-              <span class="inline-flex items-center leading-5 whitespace-nowrap"
-                ><CalendarPlus2 class="w-4 h-4 mr-1" /> {{ shortDate(link.createdAt) }}</span
-              >
+              <span class="inline-flex items-center leading-5 whitespace-nowrap">
+                <CalendarPlus2 class="w-4 h-4 mr-1" /> {{ shortDate(link.createdAt) }}
+              </span>
             </TooltipTrigger>
             <TooltipContent>
               <p>Created At: {{ longDate(link.createdAt) }}</p>
@@ -145,9 +146,9 @@ function copyLink() {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger as-child>
-                <span class="inline-flex items-center leading-5 whitespace-nowrap"
-                  ><Hourglass class="w-4 h-4 mr-1" /> {{ shortDate(link.expiration) }}</span
-                >
+                <span class="inline-flex items-center leading-5 whitespace-nowrap">
+                  <Hourglass class="w-4 h-4 mr-1" /> {{ shortDate(link.expiration) }}
+                </span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Expires At: {{ longDate(link.expiration) }}</p>
