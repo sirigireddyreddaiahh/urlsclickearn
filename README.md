@@ -1,4 +1,4 @@
-# ⚡ Urlsclickearn
+
 
 # ⚡ Urlsclickearn
 
@@ -15,7 +15,7 @@
 
 Urlsclickearn is a modern, privacy-friendly link shortener and analytics platform built for speed, security, and scalability. Powered entirely by Cloudflare (Workers, KV, Analytics), it requires zero server maintenance and is ready for global scale.
 
-**Live Demo:** [urlsclickearn.xyz/dashboard](https://urlsclickearn.xyz/dashboard)
+
 
 
 
